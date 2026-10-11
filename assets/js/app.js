@@ -45,6 +45,21 @@
     return p;
   }
 
+  // 7405907474 -> 740-590-7474 (the feed may send the phone as a number).
+  function formatPhone(v) {
+    var s = str(v), d = s.replace(/\D/g, "");
+    if (d.length === 11 && d[0] === "1") d = d.slice(1);
+    return d.length === 10 ? d.slice(0, 3) + "-" + d.slice(3, 6) + "-" + d.slice(6) : s;
+  }
+
+  // Accepts "2026-10-11 16:32" (all browsers, including iPhone Safari) and ISO dates.
+  function parseDateTime(v) {
+    var s = str(v);
+    var m = /^(\d{4})-(\d{2})-(\d{2})[ T](\d{1,2}):(\d{2})$/.exec(s);
+    if (m) return new Date(+m[1], +m[2] - 1, +m[3], +m[4], +m[5]);
+    return new Date(s);
+  }
+
   function formatDate(v) {
     var s = str(v);
     if (!s) return "";
@@ -67,7 +82,7 @@
   var contact = Object.assign({}, CFG.FALLBACK_CONTACT || {});
 
   function renderContact() {
-    var phone = str(contact.phone), email = str(contact.email), address = str(contact.address);
+    var phone = formatPhone(contact.phone), email = str(contact.email), address = str(contact.address);
     var li;
 
     li = $('[data-contact="phone"]');
@@ -101,7 +116,7 @@
 
   function contactSentence() {
     var parts = [];
-    if (str(contact.phone)) parts.push("call " + str(contact.phone));
+    if (str(contact.phone)) parts.push("call " + formatPhone(contact.phone));
     if (str(contact.email)) parts.push("e-mail " + str(contact.email));
     return parts.length ? " You can also " + parts.join(" or ") + "." : "";
   }
@@ -155,7 +170,7 @@
     var p = $("#rooms-updated");
     var s = str(updated);
     if (!s) { p.hidden = true; return; }
-    var d = new Date(s);
+    var d = parseDateTime(s);
     var text = isNaN(d.getTime()) ? s : d.toLocaleString("en-US", { month: "short", day: "numeric", year: "numeric", hour: "numeric", minute: "2-digit" });
     p.textContent = "Availability updated " + text;
     p.hidden = false;
