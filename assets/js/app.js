@@ -52,21 +52,11 @@
     return d.length === 10 ? d.slice(0, 3) + "-" + d.slice(3, 6) + "-" + d.slice(6) : s;
   }
 
-  // Accepts "2026-10-11 16:32" (all browsers, including iPhone Safari) and ISO dates.
-  function parseDateTime(v) {
-    var s = str(v);
-    var m = /^(\d{4})-(\d{2})-(\d{2})[ T](\d{1,2}):(\d{2})$/.exec(s);
-    if (m) return new Date(+m[1], +m[2] - 1, +m[3], +m[4], +m[5]);
-    return new Date(s);
-  }
-
-  function formatDate(v) {
-    var s = str(v);
-    if (!s) return "";
-    var m = /^(\d{4})-(\d{2})-(\d{2})/.exec(s);
-    var d = m ? new Date(+m[1], +m[2] - 1, +m[3]) : new Date(s);
-    if (isNaN(d.getTime())) return s;
-    return d.toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" });
+  // "2027-05-01" -> "May 2027". Month and year only: the site never shows a day of the month.
+  function formatMonthYear(v) {
+    var m = /^(\d{4})-(\d{1,2})/.exec(str(v));
+    if (!m || +m[2] < 1 || +m[2] > 12) return "";
+    return new Date(+m[1], +m[2] - 1, 1).toLocaleDateString("en-US", { month: "long", year: "numeric" });
   }
 
   function fetchWithTimeout(url, opts, ms) {
@@ -132,8 +122,12 @@
     roomsStatus.hidden = false;
   }
 
-  function loadRooms() {
-    showStatus([
+  var loadSeq = 0, lastLoaded = 0, hasRooms = false;
+
+  // silent = refresh in the background (returning visitor) without flashing the loading state.
+  function loadRooms(silent) {
+    var seq = ++loadSeq;
+    if (!(silent && hasRooms)) showStatus([
       el("div", { class: "skeleton-card", "aria-hidden": "true" }),
       el("div", { class: "skeleton-card", "aria-hidden": "true" }),
       el("span", { class: "sr-only", text: "Loading rooms…" })
@@ -145,6 +139,7 @@
         return res.json();
       })
       .then(function (data) {
+        if (seq !== loadSeq) return;
         if (!data || data.ok === false || !Array.isArray(data.rooms)) throw new Error("bad feed");
         // Only business details are taken from the feed; phone and e-mail are set in config.js.
         ["landlord", "address"].forEach(function (k) {
@@ -152,11 +147,12 @@
         });
         renderContact();
         renderRooms(data.rooms);
-        renderUpdated(data.updated);
+        lastLoaded = Date.now();
       })
       .catch(function () {
+        if (seq !== loadSeq || (silent && hasRooms)) return; // keep showing what we have
         var retry = el("button", { class: "btn btn-ghost", type: "button", text: "Try again" });
-        retry.addEventListener("click", loadRooms);
+        retry.addEventListener("click", function () { loadRooms(false); });
         showStatus([
           el("div", { class: "notice" }, [
             el("p", { text: "We couldn't load the current room list right now." + contactSentence() }),
@@ -166,37 +162,25 @@
       });
   }
 
-  function renderUpdated(updated) {
-    var p = $("#rooms-updated");
-    var s = str(updated);
-    if (!s) { p.hidden = true; return; }
-    var d = parseDateTime(s);
-    var text = isNaN(d.getTime()) ? s : d.toLocaleString("en-US", { month: "short", day: "numeric", year: "numeric", hour: "numeric", minute: "2-digit" });
-    p.textContent = "Availability updated " + text;
-    p.hidden = false;
-  }
-
+  // availableText is shown exactly as the back office sends it ("Available May 2027", "Available now").
   function availability(r) {
     var now = r.availableNow === true || str(r.availableNow).toLowerCase() === "true";
     var text = str(r.availableText);
-    // "May 2027" -> "Available May 2027"; "Available now", "Rented until May" etc. stay as written.
-    if (text && /^(jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec|spring|summer|fall|autumn|winter|\d)/i.test(text)) {
-      text = "Available " + text;
-    }
     if (!text) {
-      if (now) text = "Available now";
-      else if (str(r.availableFrom)) text = "Available " + formatDate(r.availableFrom);
-      else text = "Ask about availability";
+      var month = formatMonthYear(r.availableFrom);
+      text = now ? "Available now" : month ? "Available " + month : "Ask about availability";
     }
-    return { now: now, text: text };
+    return { now: now || /^available now$/i.test(text), text: text };
   }
 
   function renderRooms(rooms) {
     roomsList.textContent = "";
     var select = $("#c-room");
+    var chosen = select.value;
     $$("option:not([value=''])", select).forEach(function (o) { o.remove(); });
 
     var valid = rooms.filter(function (r) { return r && str(r.room); });
+    hasRooms = valid.length > 0;
     if (!valid.length) {
       showStatus([el("div", { class: "notice" }, [
         el("p", { text: "All of our rooms are currently taken. Send us a message to hear about the next opening." + contactSentence() }),
@@ -214,11 +198,11 @@
       if (usedIds[id]) id += "-" + i;
       usedIds[id] = true;
       roomsList.appendChild(roomCard(r, id, i === 0));
-      select.appendChild(el("option", { value: name, text: roomLabel(name) }));
+      select.appendChild(el("option", { value: name, text: roomLabel(name), selected: name === chosen }));
     });
 
-    // Honor links like .../#room-2a once rooms exist.
-    if (location.hash && location.hash.indexOf("#room-") === 0) {
+    // Honor links like .../#room-2a once rooms exist (first load only).
+    if (!lastLoaded && location.hash && location.hash.indexOf("#room-") === 0) {
       var target = document.getElementById(location.hash.slice(1));
       if (target) target.scrollIntoView();
     }
@@ -469,5 +453,12 @@
 
   $("#year").textContent = String(new Date().getFullYear());
   renderContact();
-  loadRooms();
+  loadRooms(false);
+
+  // Availability can change at any time, so a visitor coming back gets fresh data:
+  // via the Back button (page restored from memory) or returning to a tab left open.
+  window.addEventListener("pageshow", function (e) { if (e.persisted) loadRooms(true); });
+  document.addEventListener("visibilitychange", function () {
+    if (document.visibilityState === "visible" && lastLoaded && Date.now() - lastLoaded > 5 * 60 * 1000) loadRooms(true);
+  });
 })();
