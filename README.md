@@ -6,7 +6,7 @@ Public website for College Quarters, student rooms for rent in Athens, Ohio
 ## How it works
 
 - **Rooms, prices and availability** come live from the back office on every visit:
-  `GET https://rentals.jewishbobcats.com/?feed=rooms`. Rooms you switch off in the back office disappear
+  `GET <Apps Script web app URL>?feed=rooms` (see `assets/js/config.js`). Rooms you switch off in the back office disappear
   from the site right away, with no change needed here.
 - **Forms** (ask about a room, general contact, current tenants "e-mail me my link") send a JSON body as
   `Content-Type: text/plain` to the back-office web app (`APP_URL`). If it answers `ok: false`, the visitor
