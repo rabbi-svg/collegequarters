@@ -13,12 +13,12 @@ window.CQ_CONFIG = {
   // Shown after the price when the feed gives a plain number, e.g. 650 -> "$650 / month".
   PRICE_SUFFIX: "/ month",
 
-  // Contact details to show if the live feed can't be reached.
-  // (When the feed loads, its phone / email / address are used instead.)
+  // Contact details shown on the site. Phone and e-mail always come from here.
+  // Landlord and address come from the live feed when it loads (these are the backup).
   FALLBACK_CONTACT: {
     landlord: "Chabad Servicing Ohio University",
-    phone: "740-590-7474",
-    email: "rabbi@jewishbobcats.com",
+    phone: "740-541-5737",
+    email: "chanee@jewishbobcats.com",
     address: "Athens, Ohio"
   }
 };

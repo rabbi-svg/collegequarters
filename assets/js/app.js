@@ -146,8 +146,8 @@
       })
       .then(function (data) {
         if (!data || data.ok === false || !Array.isArray(data.rooms)) throw new Error("bad feed");
-        // Only business contact details are taken from the feed.
-        ["landlord", "phone", "email", "address"].forEach(function (k) {
+        // Only business details are taken from the feed; phone and e-mail are set in config.js.
+        ["landlord", "address"].forEach(function (k) {
           if (str(data[k])) contact[k] = str(data[k]);
         });
         renderContact();
@@ -179,6 +179,10 @@
   function availability(r) {
     var now = r.availableNow === true || str(r.availableNow).toLowerCase() === "true";
     var text = str(r.availableText);
+    // "May 2027" -> "Available May 2027"; "Available now", "Rented until May" etc. stay as written.
+    if (text && /^(jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec|spring|summer|fall|autumn|winter|\d)/i.test(text)) {
+      text = "Available " + text;
+    }
     if (!text) {
       if (now) text = "Available now";
       else if (str(r.availableFrom)) text = "Available " + formatDate(r.availableFrom);
