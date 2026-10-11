@@ -8,7 +8,7 @@ window.CQ_CONFIG = {
 
   // Back-office web app that receives the forms (inquiries and tenant link requests).
   // Must be the Google Apps Script "Web app" URL (usually ends in /exec).
-  APP_URL: "https://rentals.jewishbobcats.com/",
+  APP_URL: "https://script.google.com/macros/s/AKfycbwzun38kkYzRn2IHmWfsK7O_mP94rUlQKD6AXve26XokUHlufXDuC_XGAXVI4YoJbY/exec",
 
   // Shown after the price when the feed gives a plain number, e.g. 650 -> "$650 / month".
   PRICE_SUFFIX: "/ month",
@@ -17,8 +17,8 @@ window.CQ_CONFIG = {
   // (When the feed loads, its phone / email / address are used instead.)
   FALLBACK_CONTACT: {
     landlord: "Chabad Servicing Ohio University",
-    phone: "",
-    email: "",
+    phone: "740-590-7474",
+    email: "rabbi@jewishbobcats.com",
     address: "Athens, Ohio"
   }
 };
