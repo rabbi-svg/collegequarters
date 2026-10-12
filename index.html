@@ -3,16 +3,18 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <title>College Quarters | Student Rooms for Rent in Athens, Ohio</title>
-  <meta name="description" content="Student rooms for rent in Athens, Ohio, for Ohio University students. See photos, prices and live availability, and ask about a room in a minute.">
+  <!-- All visible text comes from wording.json (keys in data-w / data-w-placeholder / data-w-content).
+       See CLAUDE.md before editing any text. -->
+  <title data-w="meta.title">College Quarters | Student Rooms for Rent in Athens, Ohio</title>
+  <meta name="description" data-w-content="meta.description" content="Student rooms for rent in Athens, Ohio, for Ohio University students. See photos, prices and live availability, and ask about a room in a minute.">
   <link rel="canonical" href="https://collegequarters.net/">
   <meta name="theme-color" content="#0f5a46">
 
   <!-- Link previews (iMessage, WhatsApp, Facebook, Slack, etc.) -->
   <meta property="og:type" content="website">
-  <meta property="og:site_name" content="College Quarters">
-  <meta property="og:title" content="College Quarters | Student Rooms in Athens, Ohio">
-  <meta property="og:description" content="Rooms for Ohio University students. Photos, prices and live availability. Ask about a room in a minute.">
+  <meta property="og:site_name" data-w-content="site.name" content="College Quarters">
+  <meta property="og:title" data-w-content="meta.title" content="College Quarters | Student Rooms for Rent in Athens, Ohio">
+  <meta property="og:description" data-w-content="meta.description" content="Student rooms for rent in Athens, Ohio, for Ohio University students. See photos, prices and live availability, and ask about a room in a minute.">
   <meta property="og:url" content="https://collegequarters.net/">
   <meta property="og:image" content="https://collegequarters.net/assets/img/og-image.jpg">
   <meta property="og:image:width" content="1200">
@@ -20,8 +22,8 @@
   <meta property="og:image:alt" content="College Quarters: student rooms in Athens, Ohio">
   <meta property="og:locale" content="en_US">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="College Quarters | Student Rooms in Athens, Ohio">
-  <meta name="twitter:description" content="Rooms for Ohio University students. Photos, prices and live availability.">
+  <meta name="twitter:title" data-w-content="meta.title" content="College Quarters | Student Rooms for Rent in Athens, Ohio">
+  <meta name="twitter:description" data-w-content="meta.description" content="Student rooms for rent in Athens, Ohio, for Ohio University students. See photos, prices and live availability, and ask about a room in a minute.">
   <meta name="twitter:image" content="https://collegequarters.net/assets/img/og-image.jpg">
 
   <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
@@ -29,14 +31,14 @@
   <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
   <link rel="preconnect" href="https://script.google.com" crossorigin>
   <link rel="dns-prefetch" href="https://script.googleusercontent.com">
-  <link rel="stylesheet" href="assets/css/site.css?v=2">
+  <link rel="stylesheet" href="assets/css/site.css?v=3">
 
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@type": "LodgingBusiness",
     "name": "College Quarters",
-    "description": "Student rooms for rent in Athens, Ohio, for Ohio University students.",
+    "description": "Student rooms for rent in Athens, Ohio, for Ohio University students. See photos, prices and live availability, and ask about a room in a minute.",
     "url": "https://collegequarters.net/",
     "image": "https://collegequarters.net/assets/img/og-image.jpg",
     "areaServed": "Athens, Ohio",
@@ -44,23 +46,48 @@
   }
   </script>
 
-  <script src="assets/js/config.js?v=2" defer></script>
-  <script src="assets/js/photos.js?v=2" defer></script>
-  <script src="assets/js/app.js?v=2" defer></script>
+  <!-- Text the scripts show (messages, buttons on room cards). Same rules as data-w. -->
+  <script type="application/json" id="cq-wording">
+  {
+    "rooms.numberedName": "Room {room}",
+    "rooms.priceSuffix": "/ month",
+    "rooms.noPhotos": "Photos coming soon",
+    "rooms.askButton": "Ask about this room",
+    "rooms.none": "All of our rooms are currently taken. Send us a message to hear about the next opening.",
+    "rooms.noneButton": "Ask about upcoming openings",
+    "rooms.loadError": "We couldn't load the current room list right now.",
+    "rooms.tryAgain": "Try again",
+    "common.reachUs": "You can also call {phone} or e-mail {email}.",
+    "dialog.title": "Ask about {room}",
+    "dialog.message": "Hi, I'm interested in {room}. Is it still available, and can I come see it?",
+    "form.required": "Please fill in {field}.",
+    "form.invalid": "Please enter a valid {field}.",
+    "form.sending": "Sending…",
+    "form.inquirySent": "Thank you! Your message was sent. We'll get back to you soon.",
+    "form.failed": "Sorry, something went wrong. Please try again.",
+    "form.offline": "Sorry, we couldn't send that. Please check your connection and try again.",
+    "tenants.sent": "Thanks! If that e-mail address belongs to a current tenant, your private link is on its way. Check your inbox (and spam folder) in a few minutes."
+  }
+  </script>
+
+  <script src="assets/js/config.js?v=3" defer></script>
+  <script src="assets/js/photos.js?v=3" defer></script>
+  <script src="assets/js/wording.js?v=3" defer></script>
+  <script src="assets/js/app.js?v=3" defer></script>
 </head>
 <body>
-  <a class="skip" href="#main">Skip to content</a>
+  <a class="skip" href="#main" data-w="nav.skip">Skip to content</a>
 
   <header class="site-header">
     <div class="wrap header-inner">
-      <a class="brand" href="#top" aria-label="College Quarters home">
+      <a class="brand" href="#top">
         <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="7" fill="currentColor"/><path d="M8 15.5 16 9l8 6.5V24h-5.5v-5h-5v5H8z" fill="#fff"/></svg>
-        <span>College Quarters</span>
+        <span data-w="site.name">College Quarters</span>
       </a>
       <nav class="nav" aria-label="Main">
-        <a href="#rooms">Rooms</a>
-        <a href="#contact">Contact</a>
-        <a href="#tenants">Tenants</a>
+        <a href="#rooms" data-w="nav.rooms">Rooms</a>
+        <a href="#contact" data-w="nav.contact">Contact</a>
+        <a href="#tenants" data-w="nav.tenants">Tenants</a>
       </nav>
     </div>
   </header>
@@ -68,12 +95,12 @@
   <main id="main">
     <section class="hero" id="top">
       <div class="wrap">
-        <p class="eyebrow">Athens, Ohio &middot; Near Ohio University</p>
-        <h1>Student rooms in Athens, ready when you are.</h1>
-        <p class="lead">See every room we have open, with photos, price and up-to-date availability. Questions? Ask about any room and we'll get back to you.</p>
+        <p class="eyebrow" data-w="hero.eyebrow">Athens, Ohio · Near Ohio University</p>
+        <h1 data-w="hero.title">Student rooms in Athens, ready when you are.</h1>
+        <p class="lead" data-w="hero.lead">See every room we have open, with photos, price and up-to-date availability. Questions? Ask about any room and we'll get back to you.</p>
         <div class="hero-actions">
-          <a class="btn btn-primary" href="#rooms">See available rooms</a>
-          <a class="btn btn-ghost" href="#contact">Ask a question</a>
+          <a class="btn btn-primary" href="#rooms" data-w="hero.roomsButton">See available rooms</a>
+          <a class="btn btn-ghost" href="#contact" data-w="hero.contactButton">Ask a question</a>
         </div>
       </div>
     </section>
@@ -81,29 +108,28 @@
     <section class="section" id="rooms" aria-labelledby="rooms-title">
       <div class="wrap">
         <div class="section-head">
-          <h2 id="rooms-title">Rooms</h2>
+          <h2 id="rooms-title" data-w="rooms.title">Rooms</h2>
         </div>
 
         <div id="rooms-status" class="status" role="status" aria-live="polite">
           <div class="skeleton-card" aria-hidden="true"></div>
           <div class="skeleton-card" aria-hidden="true"></div>
-          <span class="sr-only">Loading rooms&hellip;</span>
         </div>
         <div id="rooms-list" class="rooms"></div>
 
         <noscript>
-          <p class="notice">Please turn on JavaScript to see our rooms and live availability, or contact us using the details below.</p>
+          <p class="notice" data-w="rooms.noscript">Please turn on JavaScript to see our rooms and live availability, or contact us using the details below.</p>
         </noscript>
       </div>
     </section>
 
     <section class="section section-alt" aria-labelledby="how-title">
       <div class="wrap">
-        <h2 id="how-title">How it works</h2>
+        <h2 id="how-title" data-w="how.title">How it works</h2>
         <ol class="steps">
-          <li><strong>Pick a room.</strong> Browse photos, prices and when each room is available.</li>
-          <li><strong>Ask about it.</strong> Tap &ldquo;Ask about this room&rdquo; and send us a quick note. Parents are welcome to ask too.</li>
-          <li><strong>We get back to you.</strong> We answer by e-mail or phone to set up a viewing and talk through the details.</li>
+          <li><strong data-w="how.step1.title">Pick a room.</strong> <span data-w="how.step1.text">Browse photos, prices and when each room is available.</span></li>
+          <li><strong data-w="how.step2.title">Ask about it.</strong> <span data-w="how.step2.text">Tap “Ask about this room” and send us a quick note. Parents are welcome to ask too.</span></li>
+          <li><strong data-w="how.step3.title">We get back to you.</strong> <span data-w="how.step3.text">We answer by e-mail or phone to set up a viewing and talk through the details.</span></li>
         </ol>
       </div>
     </section>
@@ -111,49 +137,49 @@
     <section class="section" id="contact" aria-labelledby="contact-title">
       <div class="wrap two-col">
         <div>
-          <h2 id="contact-title">Contact us</h2>
-          <p>General question, a viewing, or something about renting with us? Send a message and we'll reply soon.</p>
+          <h2 id="contact-title" data-w="contact.title">Contact us</h2>
+          <p data-w="contact.intro">General question, a viewing, or something about renting with us? Send a message and we'll reply soon.</p>
           <ul class="contact-list" id="contact-list">
-            <li data-contact="phone" hidden><span class="label">Phone</span> <a href="#"></a></li>
-            <li data-contact="email" hidden><span class="label">E-mail</span> <a href="#"></a></li>
-            <li data-contact="address" hidden><span class="label">Address</span> <a href="#" target="_blank" rel="noopener"></a></li>
+            <li data-contact="phone" hidden><span class="label" data-w="contact.phoneLabel">Phone</span> <a href="#"></a></li>
+            <li data-contact="email" hidden><span class="label" data-w="contact.emailLabel">E-mail</span> <a href="#"></a></li>
+            <li data-contact="address" hidden><span class="label" data-w="contact.addressLabel">Address</span> <a href="#" target="_blank" rel="noopener"></a></li>
           </ul>
-          <p class="muted small" data-contact="landlord"></p>
+          <p class="muted small" data-contact="landlord-line"><span data-w="contact.landlordLabel">Landlord:</span> <span data-contact="landlord">Chabad Servicing Ohio University</span></p>
         </div>
 
         <form class="card form" id="contact-form" data-form="inquiry" novalidate>
-          <h3>Send us a message</h3>
+          <h3 data-w="contact.formTitle">Send us a message</h3>
           <div class="field">
-            <label for="c-name">Your name</label>
+            <label for="c-name"><span data-w="form.nameLabel">Your name</span></label>
             <input id="c-name" name="name" type="text" autocomplete="name" required maxlength="100">
           </div>
           <div class="field">
-            <label for="c-email">E-mail</label>
+            <label for="c-email"><span data-w="form.emailLabel">E-mail</span></label>
             <input id="c-email" name="email" type="email" autocomplete="email" inputmode="email" required maxlength="200">
           </div>
           <div class="field">
-            <label for="c-phone">Phone <span class="opt">(optional)</span></label>
+            <label for="c-phone"><span data-w="form.phoneLabel">Phone</span> <span class="opt" data-w="form.optional">(optional)</span></label>
             <input id="c-phone" name="phone" type="tel" autocomplete="tel" inputmode="tel" maxlength="40">
           </div>
           <div class="field">
-            <label for="c-room">Room <span class="opt">(optional)</span></label>
+            <label for="c-room"><span data-w="contact.roomLabel">Room</span> <span class="opt" data-w="form.optional">(optional)</span></label>
             <select id="c-room" name="room">
-              <option value="">Any room / general question</option>
+              <option value="" data-w="contact.anyRoom">Any room / general question</option>
             </select>
           </div>
           <div class="field">
-            <label for="c-movein">Move-in <span class="opt">(optional)</span></label>
-            <input id="c-movein" name="moveIn" type="text" placeholder="e.g. Fall semester 2027, or May 2027" maxlength="100">
+            <label for="c-movein"><span data-w="form.moveInLabel">Move-in</span> <span class="opt" data-w="form.optional">(optional)</span></label>
+            <input id="c-movein" name="moveIn" type="text" data-w-placeholder="form.moveInPlaceholder" placeholder="e.g. Fall semester 2027, or May 2027" maxlength="100">
           </div>
           <div class="field">
-            <label for="c-message">Message</label>
+            <label for="c-message"><span data-w="form.messageLabel">Message</span></label>
             <textarea id="c-message" name="message" rows="5" required maxlength="3000"></textarea>
           </div>
           <div class="hp" aria-hidden="true">
             <label for="c-website">Leave this empty</label>
             <input id="c-website" name="website" type="text" tabindex="-1" autocomplete="off">
           </div>
-          <button class="btn btn-primary btn-block" type="submit">Send message</button>
+          <button class="btn btn-primary btn-block" type="submit" data-w="contact.sendButton">Send message</button>
           <p class="form-msg" role="status" aria-live="polite"></p>
         </form>
       </div>
@@ -161,14 +187,14 @@
 
     <section class="section section-alt" id="tenants" aria-labelledby="tenants-title">
       <div class="wrap narrow">
-        <h2 id="tenants-title">Current tenants</h2>
-        <p>Lost your private tenant-page link? Enter the e-mail address we have on file and we'll send it to you.</p>
+        <h2 id="tenants-title" data-w="tenants.title">Current tenants</h2>
+        <p data-w="tenants.intro">Lost your private tenant-page link? Enter the e-mail address we have on file and we'll send it to you.</p>
         <form class="card form" id="mylink-form" data-form="mylink" novalidate>
           <div class="field">
-            <label for="t-email">Your e-mail</label>
+            <label for="t-email"><span data-w="tenants.emailLabel">Your e-mail</span></label>
             <input id="t-email" name="email" type="email" autocomplete="email" inputmode="email" required maxlength="200">
           </div>
-          <button class="btn btn-primary btn-block" type="submit">E-mail me my link</button>
+          <button class="btn btn-primary btn-block" type="submit" data-w="tenants.sendButton">E-mail me my link</button>
           <p class="form-msg" role="status" aria-live="polite"></p>
         </form>
       </div>
@@ -177,9 +203,9 @@
 
   <footer class="site-footer">
     <div class="wrap">
-      <p><strong>College Quarters</strong> &middot; Student rooms in Athens, Ohio</p>
-      <p class="muted small" data-contact="landlord-footer">Landlord: Chabad Servicing Ohio University</p>
-      <p class="muted small">&copy; <span id="year">2026</span> College Quarters. Not affiliated with Ohio University.</p>
+      <p><strong data-w="footer.name">College Quarters</strong> · <span data-w="footer.tagline">Student rooms in Athens, Ohio</span></p>
+      <p class="muted small" data-contact="landlord-line"><span data-w="footer.landlordLabel">Landlord:</span> <span data-contact="landlord">Chabad Servicing Ohio University</span></p>
+      <p class="muted small">© <span id="year">2026</span> <span data-w="footer.copyright">College Quarters. Not affiliated with Ohio University.</span></p>
     </div>
   </footer>
 
@@ -187,35 +213,35 @@
   <dialog class="modal" id="room-dialog" aria-labelledby="room-dialog-title">
     <form class="form" id="room-form" data-form="inquiry" novalidate>
       <div class="modal-head">
-        <h3 id="room-dialog-title">Ask about this room</h3>
+        <h3 id="room-dialog-title"></h3>
         <button class="icon-btn" type="button" data-close aria-label="Close">&times;</button>
       </div>
       <input type="hidden" name="room">
       <div class="field">
-        <label for="r-name">Your name</label>
+        <label for="r-name"><span data-w="form.nameLabel">Your name</span></label>
         <input id="r-name" name="name" type="text" autocomplete="name" required maxlength="100">
       </div>
       <div class="field">
-        <label for="r-email">E-mail</label>
+        <label for="r-email"><span data-w="form.emailLabel">E-mail</span></label>
         <input id="r-email" name="email" type="email" autocomplete="email" inputmode="email" required maxlength="200">
       </div>
       <div class="field">
-        <label for="r-phone">Phone <span class="opt">(optional)</span></label>
+        <label for="r-phone"><span data-w="form.phoneLabel">Phone</span> <span class="opt" data-w="form.optional">(optional)</span></label>
         <input id="r-phone" name="phone" type="tel" autocomplete="tel" inputmode="tel" maxlength="40">
       </div>
       <div class="field">
-        <label for="r-movein">Move-in <span class="opt">(optional)</span></label>
-        <input id="r-movein" name="moveIn" type="text" placeholder="e.g. Fall semester 2027, or May 2027" maxlength="100">
+        <label for="r-movein"><span data-w="form.moveInLabel">Move-in</span> <span class="opt" data-w="form.optional">(optional)</span></label>
+        <input id="r-movein" name="moveIn" type="text" data-w-placeholder="form.moveInPlaceholder" placeholder="e.g. Fall semester 2027, or May 2027" maxlength="100">
       </div>
       <div class="field">
-        <label for="r-message">Message</label>
+        <label for="r-message"><span data-w="form.messageLabel">Message</span></label>
         <textarea id="r-message" name="message" rows="4" required maxlength="3000"></textarea>
       </div>
       <div class="hp" aria-hidden="true">
         <label for="r-website">Leave this empty</label>
         <input id="r-website" name="website" type="text" tabindex="-1" autocomplete="off">
       </div>
-      <button class="btn btn-primary btn-block" type="submit">Send question</button>
+      <button class="btn btn-primary btn-block" type="submit" data-w="dialog.sendButton">Send question</button>
       <p class="form-msg" role="status" aria-live="polite"></p>
     </form>
   </dialog>

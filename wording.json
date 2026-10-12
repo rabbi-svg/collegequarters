@@ -1,0 +1,473 @@
+{
+  "sections": [
+    {
+      "title": "Page title and link previews",
+      "items": [
+        {
+          "key": "meta.title",
+          "label": "Page title (shown on the browser tab, in Google results and on shared links)",
+          "default": "College Quarters | Student Rooms for Rent in Athens, Ohio",
+          "long": false
+        },
+        {
+          "key": "meta.description",
+          "label": "Short description of the site (shown in Google results and on shared links)",
+          "default": "Student rooms for rent in Athens, Ohio, for Ohio University students. See photos, prices and live availability, and ask about a room in a minute.",
+          "long": true
+        }
+      ]
+    },
+    {
+      "title": "Top bar",
+      "items": [
+        {
+          "key": "nav.skip",
+          "label": "Hidden link for keyboard users that jumps past the menu",
+          "default": "Skip to content",
+          "long": false
+        },
+        {
+          "key": "site.name",
+          "label": "Business name in the top bar",
+          "default": "College Quarters",
+          "long": false
+        },
+        {
+          "key": "nav.rooms",
+          "label": "Menu link to the rooms",
+          "default": "Rooms",
+          "long": false
+        },
+        {
+          "key": "nav.contact",
+          "label": "Menu link to the contact section",
+          "default": "Contact",
+          "long": false
+        },
+        {
+          "key": "nav.tenants",
+          "label": "Menu link to the current tenants section",
+          "default": "Tenants",
+          "long": false
+        }
+      ]
+    },
+    {
+      "title": "Top of the page",
+      "items": [
+        {
+          "key": "hero.eyebrow",
+          "label": "Small line above the big headline",
+          "default": "Athens, Ohio · Near Ohio University",
+          "long": false
+        },
+        {
+          "key": "hero.title",
+          "label": "Big headline at the top",
+          "default": "Student rooms in Athens, ready when you are.",
+          "long": false
+        },
+        {
+          "key": "hero.lead",
+          "label": "Paragraph under the big headline",
+          "default": "See every room we have open, with photos, price and up-to-date availability. Questions? Ask about any room and we'll get back to you.",
+          "long": true
+        },
+        {
+          "key": "hero.roomsButton",
+          "label": "First button under the headline (goes to the rooms)",
+          "default": "See available rooms",
+          "long": false
+        },
+        {
+          "key": "hero.contactButton",
+          "label": "Second button under the headline (goes to the contact form)",
+          "default": "Ask a question",
+          "long": false
+        }
+      ]
+    },
+    {
+      "title": "Rooms",
+      "items": [
+        {
+          "key": "rooms.title",
+          "label": "Heading above the rooms",
+          "default": "Rooms",
+          "long": false
+        },
+        {
+          "key": "rooms.numberedName",
+          "label": "Name shown for a room whose name is only a number ({room} is replaced with the number)",
+          "default": "Room {room}",
+          "long": false
+        },
+        {
+          "key": "rooms.priceSuffix",
+          "label": "Added after a price that is only a number, for example $650 / month",
+          "default": "/ month",
+          "long": false
+        },
+        {
+          "key": "rooms.noPhotos",
+          "label": "Shown where a room has no photos yet",
+          "default": "Photos coming soon",
+          "long": false
+        },
+        {
+          "key": "rooms.askButton",
+          "label": "Button on each room",
+          "default": "Ask about this room",
+          "long": false
+        },
+        {
+          "key": "rooms.none",
+          "label": "Message when no rooms are listed",
+          "default": "All of our rooms are currently taken. Send us a message to hear about the next opening.",
+          "long": true
+        },
+        {
+          "key": "rooms.noneButton",
+          "label": "Button under the \"no rooms listed\" message",
+          "default": "Ask about upcoming openings",
+          "long": false
+        },
+        {
+          "key": "rooms.loadError",
+          "label": "Message when the room list can't be loaded",
+          "default": "We couldn't load the current room list right now.",
+          "long": true
+        },
+        {
+          "key": "rooms.tryAgain",
+          "label": "Button to try loading the room list again",
+          "default": "Try again",
+          "long": false
+        },
+        {
+          "key": "rooms.noscript",
+          "label": "Message for visitors whose browser can't show the room list (JavaScript turned off)",
+          "default": "Please turn on JavaScript to see our rooms and live availability, or contact us using the details below.",
+          "long": true
+        },
+        {
+          "key": "common.reachUs",
+          "label": "Sentence added after error messages ({phone} and {email} are replaced with your phone number and e-mail)",
+          "default": "You can also call {phone} or e-mail {email}.",
+          "long": true
+        }
+      ]
+    },
+    {
+      "title": "\"Ask about this room\" pop-up",
+      "items": [
+        {
+          "key": "dialog.title",
+          "label": "Heading of the pop-up ({room} is replaced with the room name)",
+          "default": "Ask about {room}",
+          "long": false
+        },
+        {
+          "key": "dialog.message",
+          "label": "Message already filled in for the visitor ({room} is replaced with the room name)",
+          "default": "Hi, I'm interested in {room}. Is it still available, and can I come see it?",
+          "long": true
+        },
+        {
+          "key": "dialog.sendButton",
+          "label": "Send button in the pop-up",
+          "default": "Send question",
+          "long": false
+        }
+      ]
+    },
+    {
+      "title": "How it works",
+      "items": [
+        {
+          "key": "how.title",
+          "label": "Heading of the \"how it works\" section",
+          "default": "How it works",
+          "long": false
+        },
+        {
+          "key": "how.step1.title",
+          "label": "Step 1, bold start",
+          "default": "Pick a room.",
+          "long": false
+        },
+        {
+          "key": "how.step1.text",
+          "label": "Step 1, rest of the sentence",
+          "default": "Browse photos, prices and when each room is available.",
+          "long": true
+        },
+        {
+          "key": "how.step2.title",
+          "label": "Step 2, bold start",
+          "default": "Ask about it.",
+          "long": false
+        },
+        {
+          "key": "how.step2.text",
+          "label": "Step 2, rest of the sentence",
+          "default": "Tap “Ask about this room” and send us a quick note. Parents are welcome to ask too.",
+          "long": true
+        },
+        {
+          "key": "how.step3.title",
+          "label": "Step 3, bold start",
+          "default": "We get back to you.",
+          "long": false
+        },
+        {
+          "key": "how.step3.text",
+          "label": "Step 3, rest of the sentence",
+          "default": "We answer by e-mail or phone to set up a viewing and talk through the details.",
+          "long": true
+        }
+      ]
+    },
+    {
+      "title": "Contact us",
+      "items": [
+        {
+          "key": "contact.title",
+          "label": "Heading of the contact section",
+          "default": "Contact us",
+          "long": false
+        },
+        {
+          "key": "contact.intro",
+          "label": "Paragraph under the contact heading",
+          "default": "General question, a viewing, or something about renting with us? Send a message and we'll reply soon.",
+          "long": true
+        },
+        {
+          "key": "contact.phoneLabel",
+          "label": "Small label above the phone number",
+          "default": "Phone",
+          "long": false
+        },
+        {
+          "key": "contact.emailLabel",
+          "label": "Small label above the e-mail address",
+          "default": "E-mail",
+          "long": false
+        },
+        {
+          "key": "contact.addressLabel",
+          "label": "Small label above the address",
+          "default": "Address",
+          "long": false
+        },
+        {
+          "key": "contact.landlordLabel",
+          "label": "Word before the landlord's name in the contact section",
+          "default": "Landlord:",
+          "long": false
+        },
+        {
+          "key": "contact.formTitle",
+          "label": "Heading of the contact form",
+          "default": "Send us a message",
+          "long": false
+        },
+        {
+          "key": "contact.roomLabel",
+          "label": "Label of the room choice in the contact form",
+          "default": "Room",
+          "long": false
+        },
+        {
+          "key": "contact.anyRoom",
+          "label": "First choice in the room list of the contact form",
+          "default": "Any room / general question",
+          "long": false
+        },
+        {
+          "key": "contact.sendButton",
+          "label": "Send button of the contact form",
+          "default": "Send message",
+          "long": false
+        }
+      ]
+    },
+    {
+      "title": "Message forms (the contact form and the \"Ask about this room\" pop-up)",
+      "items": [
+        {
+          "key": "form.nameLabel",
+          "label": "Label of the name box",
+          "default": "Your name",
+          "long": false
+        },
+        {
+          "key": "form.emailLabel",
+          "label": "Label of the e-mail box",
+          "default": "E-mail",
+          "long": false
+        },
+        {
+          "key": "form.phoneLabel",
+          "label": "Label of the phone box",
+          "default": "Phone",
+          "long": false
+        },
+        {
+          "key": "form.optional",
+          "label": "Shown after the label of boxes that may be left empty",
+          "default": "(optional)",
+          "long": false
+        },
+        {
+          "key": "form.moveInLabel",
+          "label": "Label of the move-in box",
+          "default": "Move-in",
+          "long": false
+        },
+        {
+          "key": "form.moveInPlaceholder",
+          "label": "Grey example text inside the move-in box",
+          "default": "e.g. Fall semester 2027, or May 2027",
+          "long": false
+        },
+        {
+          "key": "form.messageLabel",
+          "label": "Label of the message box",
+          "default": "Message",
+          "long": false
+        },
+        {
+          "key": "form.required",
+          "label": "Shown when a required box is empty ({field} is replaced with the box's name)",
+          "default": "Please fill in {field}.",
+          "long": false
+        },
+        {
+          "key": "form.invalid",
+          "label": "Shown when a box is filled in wrongly, like a bad e-mail ({field} is replaced with the box's name)",
+          "default": "Please enter a valid {field}.",
+          "long": false
+        },
+        {
+          "key": "form.sending",
+          "label": "Button text while a form is being sent",
+          "default": "Sending…",
+          "long": false
+        },
+        {
+          "key": "form.inquirySent",
+          "label": "Shown after a message or room question was sent",
+          "default": "Thank you! Your message was sent. We'll get back to you soon.",
+          "long": true
+        },
+        {
+          "key": "form.failed",
+          "label": "Shown when sending fails and the office gives no reason",
+          "default": "Sorry, something went wrong. Please try again.",
+          "long": true
+        },
+        {
+          "key": "form.offline",
+          "label": "Shown when the form can't reach the office (for example, no internet)",
+          "default": "Sorry, we couldn't send that. Please check your connection and try again.",
+          "long": true
+        }
+      ]
+    },
+    {
+      "title": "Current tenants",
+      "items": [
+        {
+          "key": "tenants.title",
+          "label": "Heading of the current tenants section",
+          "default": "Current tenants",
+          "long": false
+        },
+        {
+          "key": "tenants.intro",
+          "label": "Paragraph under the current tenants heading",
+          "default": "Lost your private tenant-page link? Enter the e-mail address we have on file and we'll send it to you.",
+          "long": true
+        },
+        {
+          "key": "tenants.emailLabel",
+          "label": "Label of the e-mail box",
+          "default": "Your e-mail",
+          "long": false
+        },
+        {
+          "key": "tenants.sendButton",
+          "label": "Send button",
+          "default": "E-mail me my link",
+          "long": false
+        },
+        {
+          "key": "tenants.sent",
+          "label": "Shown after a tenant asked for their link (always the same, whatever e-mail was entered)",
+          "default": "Thanks! If that e-mail address belongs to a current tenant, your private link is on its way. Check your inbox (and spam folder) in a few minutes.",
+          "long": true
+        }
+      ]
+    },
+    {
+      "title": "Bottom of the page",
+      "items": [
+        {
+          "key": "footer.name",
+          "label": "Business name at the bottom",
+          "default": "College Quarters",
+          "long": false
+        },
+        {
+          "key": "footer.tagline",
+          "label": "Short line next to the business name at the bottom",
+          "default": "Student rooms in Athens, Ohio",
+          "long": false
+        },
+        {
+          "key": "footer.landlordLabel",
+          "label": "Word before the landlord's name at the bottom",
+          "default": "Landlord:",
+          "long": false
+        },
+        {
+          "key": "footer.copyright",
+          "label": "Copyright line (the © sign and the current year are added in front automatically)",
+          "default": "College Quarters. Not affiliated with Ohio University.",
+          "long": false
+        }
+      ]
+    },
+    {
+      "title": "\"Page not found\" page (shown for a wrong address)",
+      "items": [
+        {
+          "key": "notfound.pageTitle",
+          "label": "Page title on the browser tab",
+          "default": "Page not found | College Quarters",
+          "long": false
+        },
+        {
+          "key": "notfound.title",
+          "label": "Headline",
+          "default": "We couldn't find that page.",
+          "long": false
+        },
+        {
+          "key": "notfound.text",
+          "label": "Paragraph under the headline",
+          "default": "The page may have moved. Our rooms are on the home page.",
+          "long": true
+        },
+        {
+          "key": "notfound.button",
+          "label": "Button back to the home page",
+          "default": "Go to College Quarters",
+          "long": false
+        }
+      ]
+    }
+  ]
+}
