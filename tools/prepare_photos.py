@@ -9,20 +9,22 @@ The folder must contain one sub-folder per room, named exactly like the room in 
 live feed (e.g. "1", "Room 2A"). Photos inside are used in file-name order, so name
 them 01.jpg, 02.jpg, ... to control the order (the first one is the cover photo).
 
-For every photo this writes two web-sized JPEGs (800px and 1600px wide) into
-photos/<room-slug>/, removes all metadata (including phone GPS location), and
-regenerates assets/js/photos.js. Existing photos for rooms in the folder are replaced;
+For every photo this writes web-sized JPEGs (800px and 1600px wide, or the photo's own width
+if it is smaller; photos are never enlarged) into photos/<room-slug>/, removes all metadata
+(GPS location, camera details, XMP, colour profile after converting to sRGB), and regenerates
+assets/js/photos.js. Existing photos for rooms in the folder are replaced;
 other rooms are left alone.
 
 Requires Pillow (pip install Pillow). HEIC files additionally need pillow-heif.
 """
+import io
 import json
 import re
 import shutil
 import sys
 from pathlib import Path
 
-from PIL import Image, ImageOps
+from PIL import Image, ImageCms, ImageOps
 
 try:  # optional iPhone HEIC support
     from pillow_heif import register_heif_opener
@@ -46,6 +48,21 @@ def natural_key(p):
     return [int(t) if t.isdigit() else t.lower() for t in re.split(r"(\d+)", p.name)]
 
 
+def clean_image(path):
+    """Upright, sRGB pixels only: a brand-new image, so no EXIF/GPS/camera/XMP data can carry over."""
+    with Image.open(path) as im:
+        im = ImageOps.exif_transpose(im)
+        icc = im.info.get("icc_profile")
+        im = im.convert("RGB")
+        if icc:
+            try:
+                src = ImageCms.ImageCmsProfile(io.BytesIO(icc))
+                im = ImageCms.profileToProfile(im, src, ImageCms.createProfile("sRGB"), outputMode="RGB")
+            except Exception:
+                pass
+        return Image.frombytes("RGB", im.size, im.tobytes())
+
+
 def process_room(src_dir):
     key = slug(src_dir.name)
     out_dir = PHOTOS_DIR / key
@@ -57,33 +74,33 @@ def process_room(src_dir):
     out_dir.mkdir(parents=True)
 
     for n, f in enumerate(files, 1):
-        with Image.open(f) as im:
-            im = ImageOps.exif_transpose(im).convert("RGB")
-            for width in SIZES:
-                copy = im.copy()
-                if copy.width > width:
-                    copy = copy.resize((width, round(copy.height * width / copy.width)), Image.LANCZOS)
-                copy.save(out_dir / f"{n:02d}-{width}.jpg", "JPEG", quality=80, optimize=True, progressive=True)
-        print(f"  {src_dir.name}: {f.name}")
+        im = clean_image(f)
+        widths = [w for w in SIZES if w < im.width] + [min(im.width, SIZES[-1])]
+        for width in widths:
+            copy = im if width == im.width else im.resize((width, round(im.height * width / im.width)), Image.LANCZOS)
+            copy.save(out_dir / f"{n:02d}-{width}.jpg", "JPEG", quality=82, optimize=True, progressive=True)
+        print(f"  {src_dir.name}: {f.name} ({im.width}x{im.height})")
     return key, len(files)
 
 
 def build_manifest():
     data = {}
+    rel = lambda p: p.relative_to(ROOT).as_posix()
     for room_dir in sorted(p for p in PHOTOS_DIR.iterdir() if p.is_dir()):
-        nums = sorted({int(m.group(1)) for f in room_dir.glob("*.jpg") if (m := re.match(r"(\d+)-\d+\.jpg$", f.name))})
+        photos = {}
+        for f in room_dir.glob("*.jpg"):
+            m = re.match(r"(\d+)-(\d+)\.jpg$", f.name)
+            if m:
+                photos.setdefault(int(m.group(1)), []).append((int(m.group(2)), f))
         items = []
-        for n in nums:
-            small = room_dir / f"{n:02d}-{SIZES[0]}.jpg"
-            large = room_dir / f"{n:02d}-{SIZES[1]}.jpg"
-            with Image.open(small) as s:
-                w, h = s.size
-            with Image.open(large) as l:
-                lw = l.width
-            rel = lambda p: p.relative_to(ROOT).as_posix()
+        for n in sorted(photos):
+            versions = sorted(photos[n])
+            small, large = versions[0][1], versions[-1][1]
+            with Image.open(small) as im:
+                w, h = im.size
             items.append({
                 "src": rel(small),
-                "srcset": f"{rel(small)} {w}w, {rel(large)} {lw}w",
+                "srcset": ", ".join(f"{rel(f)} {width}w" for width, f in versions),
                 "full": rel(large),
                 "w": w,
                 "h": h,

@@ -218,11 +218,17 @@
     }
   }
 
+  // Photo folders are named by room number ("2"); the feed may say "2" or "Room 2".
+  function roomPhotos(name) {
+    var m = /^room\s*(.+)$/i.exec(str(name));
+    return PHOTOS[slug(name)] || (m && PHOTOS[slug(m[1])]) || [];
+  }
+
   function roomCard(r, id, eager) {
     var name = str(r.room);
     var label = roomLabel(name);
     var avail = availability(r);
-    var photos = PHOTOS[slug(name)] || [];
+    var photos = roomPhotos(name);
 
     var badge = el("span", { class: "badge " + (avail.now ? "badge-now" : "badge-later"), text: avail.text });
     var price = formatPrice(r.price);
