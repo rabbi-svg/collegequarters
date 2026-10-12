@@ -3,22 +3,24 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Page not found | College Quarters</title>
+  <!-- All visible text comes from wording.json. See CLAUDE.md before editing any text. -->
+  <title data-w="notfound.pageTitle">Page not found | College Quarters</title>
   <meta name="robots" content="noindex">
+  <link rel="icon" href="/assets/img/favicon.svg" type="image/svg+xml">
   <style>
     body { margin: 0; min-height: 100vh; display: flex; align-items: center; justify-content: center; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif; color: #1b2420; background: #f5f7f5; text-align: center; padding: 24px; }
     a { display: inline-block; margin-top: 12px; background: #0f5a46; color: #fff; padding: 14px 22px; border-radius: 10px; text-decoration: none; font-weight: 600; }
+    [data-w] { white-space: pre-line; }
   </style>
+  <script src="/assets/js/config.js?v=3" defer></script>
+  <script src="/assets/js/wording.js?v=3" defer></script>
+  <script src="/assets/js/notfound.js?v=3" defer></script>
 </head>
 <body>
   <main>
-    <h1>We couldn't find that page.</h1>
-    <p>The page may have moved. Our rooms are on the home page.</p>
-    <a href="./" id="home">Go to College Quarters</a>
+    <h1 data-w="notfound.title">We couldn't find that page.</h1>
+    <p data-w="notfound.text">The page may have moved. Our rooms are on the home page.</p>
+    <a href="/" data-w="notfound.button">Go to College Quarters</a>
   </main>
-  <script>
-    // Works both on the GitHub address (/collegequarters/) and on your own domain (/).
-    document.getElementById("home").href = location.pathname.indexOf("/collegequarters/") === 0 ? "/collegequarters/" : "/";
-  </script>
 </body>
 </html>

@@ -1,9 +1,12 @@
-/* College Quarters — loads live rooms and handles the forms. No libraries. */
+/* College Quarters — loads live rooms and handles the forms. No libraries.
+ * All visible text comes from wording via W.t(...) with a literal key; never hard-code text here (see CLAUDE.md). */
 (function () {
   "use strict";
 
   var CFG = window.CQ_CONFIG || {};
   var PHOTOS = window.CQ_PHOTOS || {};
+  var W = window.CQ_WORDING;
+  var defaultsPromise = W.loadDefaults();
   var FEED_TIMEOUT_MS = 15000;
   var POST_TIMEOUT_MS = 25000;
 
@@ -33,12 +36,13 @@
 
   function roomLabel(room) {
     var r = str(room);
-    return /^\d+[a-z]?$/i.test(r) ? "Room " + r : r;
+    return /^\d+[a-z]?$/i.test(r) ? W.t("rooms.numberedName", { room: r }) : r;
   }
 
   function formatPrice(price) {
     if (typeof price === "number" && isFinite(price)) {
-      return "$" + price.toLocaleString("en-US", { maximumFractionDigits: 2 }) + (CFG.PRICE_SUFFIX ? " " + CFG.PRICE_SUFFIX : "");
+      var suffix = W.t("rooms.priceSuffix");
+      return "$" + price.toLocaleString("en-US", { maximumFractionDigits: 2 }) + (suffix ? " " + suffix : "");
     }
     var p = str(price);
     if (/^\d+(\.\d+)?$/.test(p)) return formatPrice(Number(p));
@@ -100,15 +104,16 @@
     } else li.hidden = true;
 
     var landlord = str(contact.landlord);
-    $('[data-contact="landlord"]').textContent = landlord ? "Landlord: " + landlord : "";
-    $('[data-contact="landlord-footer"]').textContent = landlord ? "Landlord: " + landlord : "";
+    $$('[data-contact="landlord"]').forEach(function (n) { n.textContent = landlord; });
+    $$('[data-contact="landlord-line"]').forEach(function (n) { n.hidden = !landlord; });
   }
 
+  // " You can also call … or e-mail …." (only when both are known).
   function contactSentence() {
-    var parts = [];
-    if (str(contact.phone)) parts.push("call " + formatPhone(contact.phone));
-    if (str(contact.email)) parts.push("e-mail " + str(contact.email));
-    return parts.length ? " You can also " + parts.join(" or ") + "." : "";
+    var phone = formatPhone(contact.phone), email = str(contact.email);
+    if (!phone || !email) return "";
+    var s = W.t("common.reachUs", { phone: phone, email: email });
+    return s ? " " + s : "";
   }
 
   /* ---------------- Rooms ---------------- */
@@ -129,8 +134,7 @@
     var seq = ++loadSeq;
     if (!(silent && hasRooms)) showStatus([
       el("div", { class: "skeleton-card", "aria-hidden": "true" }),
-      el("div", { class: "skeleton-card", "aria-hidden": "true" }),
-      el("span", { class: "sr-only", text: "Loading rooms…" })
+      el("div", { class: "skeleton-card", "aria-hidden": "true" })
     ]);
 
     fetchWithTimeout(CFG.FEED_URL, { cache: "no-store", credentials: "omit" }, FEED_TIMEOUT_MS)
@@ -139,10 +143,16 @@
         return res.json();
       })
       .then(function (data) {
-        if (seq !== loadSeq) return;
         if (!data || data.ok === false || !Array.isArray(data.rooms)) throw new Error("bad feed");
-        // Only business details are taken from the feed; phone and e-mail are set in config.js.
-        ["landlord", "address"].forEach(function (k) {
+        return defaultsPromise.then(function (defaults) { return { data: data, defaults: defaults }; });
+      })
+      .then(function (r) {
+        if (seq !== loadSeq) return;
+        var data = r.data;
+        // The office's wording first, so everything below renders with it.
+        W.apply(data.wording, r.defaults);
+        // Contact details always come from the feed (config.js only has a backup).
+        ["landlord", "phone", "email", "address"].forEach(function (k) {
           if (str(data[k])) contact[k] = str(data[k]);
         });
         renderContact();
@@ -151,11 +161,11 @@
       })
       .catch(function () {
         if (seq !== loadSeq || (silent && hasRooms)) return; // keep showing what we have
-        var retry = el("button", { class: "btn btn-ghost", type: "button", text: "Try again" });
+        var retry = el("button", { class: "btn btn-ghost", type: "button", text: W.t("rooms.tryAgain") });
         retry.addEventListener("click", function () { loadRooms(false); });
         showStatus([
           el("div", { class: "notice" }, [
-            el("p", { text: "We couldn't load the current room list right now." + contactSentence() }),
+            el("p", { text: W.t("rooms.loadError") + contactSentence() }),
             retry
           ])
         ]);
@@ -183,8 +193,8 @@
     hasRooms = valid.length > 0;
     if (!valid.length) {
       showStatus([el("div", { class: "notice" }, [
-        el("p", { text: "All of our rooms are currently taken. Send us a message to hear about the next opening." + contactSentence() }),
-        el("a", { class: "btn btn-primary", href: "#contact", text: "Ask about upcoming openings" })
+        el("p", { text: W.t("rooms.none") + contactSentence() }),
+        el("a", { class: "btn btn-primary", href: "#contact", text: W.t("rooms.noneButton") })
       ])]);
       return;
     }
@@ -216,7 +226,7 @@
 
     var badge = el("span", { class: "badge " + (avail.now ? "badge-now" : "badge-later"), text: avail.text });
     var price = formatPrice(r.price);
-    var askBtn = el("button", { class: "btn btn-primary btn-block", type: "button", text: "Ask about this room" });
+    var askBtn = el("button", { class: "btn btn-primary btn-block", type: "button", text: W.t("rooms.askButton") });
     askBtn.addEventListener("click", function () { openRoomDialog(name); });
 
     var body = el("div", { class: "room-body" }, [
@@ -236,7 +246,7 @@
 
   function gallery(photos, label, eager) {
     if (!photos.length) {
-      return el("div", { class: "gallery gallery-empty" }, [el("span", { text: "Photos coming soon" })]);
+      return el("div", { class: "gallery gallery-empty" }, [el("span", { text: W.t("rooms.noPhotos") })]);
     }
     var track = el("div", { class: "gallery-track", tabindex: "0", "aria-label": label + " photos" });
     photos.forEach(function (p, i) {
@@ -340,11 +350,11 @@
 
   function openRoomDialog(room) {
     var label = roomLabel(room);
-    $("#room-dialog-title").textContent = "Ask about " + label;
+    $("#room-dialog-title").textContent = W.t("dialog.title", { room: label });
     roomForm.elements.room.value = room;
     var msg = roomForm.elements.message;
     if (!msg.value || msg.dataset.auto === "1") {
-      msg.value = "Hi, I'm interested in " + label + ". Is it still available, and can I come see it?";
+      msg.value = W.t("dialog.message", { room: label });
       msg.dataset.auto = "1";
     }
     setMsg(roomForm, "", "");
@@ -372,9 +382,9 @@
     });
     if (bad) {
       bad.focus();
-      var lbl = form.querySelector('label[for="' + bad.id + '"]');
-      var name = lbl ? lbl.childNodes[0].textContent.trim() : "this field";
-      setMsg(form, bad.value.trim() ? "Please enter a valid " + name.toLowerCase() + "." : "Please fill in " + name.toLowerCase() + ".", "error");
+      var lbl = form.querySelector('label[for="' + bad.id + '"] [data-w]');
+      var field = lbl ? lbl.textContent.trim().toLowerCase() : "";
+      setMsg(form, bad.value.trim() ? W.t("form.invalid", { field: field }) : W.t("form.required", { field: field }), "error");
       return false;
     }
     return true;
@@ -422,24 +432,24 @@
       var btnText = btn.textContent;
       form.dataset.busy = "1";
       btn.disabled = true;
-      btn.textContent = "Sending…";
+      btn.textContent = W.t("form.sending");
 
       post(payload)
         .then(function (res) {
           if (res && res.ok) {
             if (kind === "mylink") {
-              setMsg(form, "Thanks! If that e-mail address belongs to a current tenant, your private link is on its way. Check your inbox (and spam folder) in a few minutes.", "ok");
+              setMsg(form, W.t("tenants.sent"), "ok");
             } else {
-              setMsg(form, "Thank you! Your message was sent. We'll get back to you soon.", "ok");
+              setMsg(form, W.t("form.inquirySent"), "ok");
             }
             form.reset();
             if (form === roomForm) roomForm.elements.message.dataset.auto = "0";
           } else {
-            setMsg(form, str(res && res.error) || "Sorry, something went wrong. Please try again.", "error");
+            setMsg(form, str(res && res.error) || W.t("form.failed"), "error");
           }
         })
         .catch(function () {
-          setMsg(form, "Sorry, we couldn't send that. Please check your connection and try again." + contactSentence(), "error");
+          setMsg(form, W.t("form.offline") + contactSentence(), "error");
         })
         .finally(function () {
           form.dataset.busy = "0";
