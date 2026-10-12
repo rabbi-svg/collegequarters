@@ -100,7 +100,7 @@ p { margin: 0 0 1em; }
 .badge-later { background: var(--amber-soft); color: var(--amber); }
 
 /* Gallery */
-.gallery { position: relative; background: #e9eeeb; aspect-ratio: 4 / 3; }
+.gallery { position: relative; background: #e9eeeb; aspect-ratio: 4 / 3; overflow: hidden; }
 .gallery-empty { display: flex; align-items: center; justify-content: center; color: var(--muted); font-size: .95rem; }
 .gallery-track { display: flex; height: 100%; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; overscroll-behavior-x: contain; }
 .gallery-track::-webkit-scrollbar { display: none; }
