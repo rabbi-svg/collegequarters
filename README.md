@@ -37,9 +37,9 @@ python3 tools/prepare_photos.py /path/to/originals
 
 Name the files `01.jpg`, `02.jpg`, … to set the order. The first one is the cover photo.
 
-## Connecting your own domain
+## Publishing and domain
 
-1. Add a file named `CNAME` containing just the domain (for example `www.collegequarters.com`).
-2. Replace `https://rabbi-svg.github.io/collegequarters/` with the new address in `index.html`
-   (canonical, `og:url`, `og:image`, `twitter:image` and the JSON-LD block).
-3. At your domain registrar, add the DNS records GitHub lists under **Settings → Pages → Custom domain**.
+- GitHub Pages publishes the `main` branch (root folder). Anything merged into `main` goes live within a
+  few minutes.
+- The site is served at **https://collegequarters.net/**. The `CNAME` file holds that domain; keep it.
+  The link-preview and canonical addresses in `index.html` use the same domain.
