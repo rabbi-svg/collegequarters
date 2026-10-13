@@ -19,9 +19,16 @@ window.CQ_PHOTOS = {
       "h": 360
     },
     {
-      "src": "photos/10/03-540.jpg",
-      "srcset": "photos/10/03-540.jpg 540w",
-      "full": "photos/10/03-540.jpg",
+      "src": "photos/10/03-800.jpg",
+      "srcset": "photos/10/03-800.jpg 800w, photos/10/03-1600.jpg 1600w",
+      "full": "photos/10/03-1600.jpg",
+      "w": 800,
+      "h": 535
+    },
+    {
+      "src": "photos/10/04-540.jpg",
+      "srcset": "photos/10/04-540.jpg 540w",
+      "full": "photos/10/04-540.jpg",
       "w": 540,
       "h": 360
     }
@@ -68,6 +75,13 @@ window.CQ_PHOTOS = {
       "full": "photos/2/06-360.jpg",
       "w": 360,
       "h": 540
+    },
+    {
+      "src": "photos/2/07-800.jpg",
+      "srcset": "photos/2/07-800.jpg 800w, photos/2/07-1368.jpg 1368w",
+      "full": "photos/2/07-1368.jpg",
+      "w": 800,
+      "h": 1198
     }
   ],
   "4": [
@@ -119,6 +133,13 @@ window.CQ_PHOTOS = {
       "full": "photos/4/07-360.jpg",
       "w": 360,
       "h": 540
+    },
+    {
+      "src": "photos/4/08-800.jpg",
+      "srcset": "photos/4/08-800.jpg 800w, photos/4/08-1368.jpg 1368w",
+      "full": "photos/4/08-1368.jpg",
+      "w": 800,
+      "h": 1198
     }
   ],
   "5": [
