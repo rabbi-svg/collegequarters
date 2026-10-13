@@ -63,6 +63,10 @@ The owner is not technical: do all the work, and give exact click-by-click steps
   `website` is a hidden honeypot that must stay empty. When `ok` is false, show the `error` text. After `mylink`,
   always show the same confirmation.
 - Mobile first, fast (no frameworks or libraries), good link previews.
+- Room photos: the feed's `photos` array (image URLs, first = main photo) is shown when present. If it is
+  missing or empty, or every feed photo fails to load, the repo photos (`assets/js/photos.js`) are used. Only
+  http(s) URLs are used; Google Drive share links are converted to direct image links. Feed photos are not
+  processed by this repo, so the back office is responsible for their privacy (blurring, metadata).
 - Photos: `python3 tools/prepare_photos.py <folder>` (one sub-folder per room, named as in the feed). It makes
   web-sized copies with all metadata removed. Look at every photo first: rooms are often occupied, so blur
   tenants' personal details (photos of people, screens, papers and notes, reflections) before processing, and
