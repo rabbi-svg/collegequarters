@@ -262,12 +262,6 @@
           "long": false
         },
         {
-          "key": "contact.landlordLabel",
-          "label": "Word before the landlord's name in the contact section",
-          "default": "Landlord:",
-          "long": false
-        },
-        {
           "key": "contact.formTitle",
           "label": "Heading of the contact form",
           "default": "Send us a message",
