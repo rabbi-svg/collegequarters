@@ -67,6 +67,8 @@ The owner is not technical: do all the work, and give exact click-by-click steps
   web-sized copies with all metadata removed. Look at every photo first: rooms are often occupied, so blur
   tenants' personal details (photos of people, screens, papers and notes, reflections) before processing, and
   never commit the original uploads (this repo is public; remove uploaded originals from history too).
+  Use full-size originals: files under 1600px on the long side (e.g. Apple `…_4_5005_c.jpeg` previews) make
+  a soft enlarged view; the tool warns about them, so ask the owner for the originals.
 - When changing CSS or JS, bump the `?v=` number on the asset links in `index.html` (and `404.html`).
 
 ## Publishing
