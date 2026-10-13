@@ -42,39 +42,39 @@ window.CQ_PHOTOS = {
       "h": 535
     },
     {
-      "src": "photos/2/02-540.jpg",
-      "srcset": "photos/2/02-540.jpg 540w",
-      "full": "photos/2/02-540.jpg",
-      "w": 540,
-      "h": 360
+      "src": "photos/2/02-800.jpg",
+      "srcset": "photos/2/02-800.jpg 800w, photos/2/02-1600.jpg 1600w",
+      "full": "photos/2/02-1600.jpg",
+      "w": 800,
+      "h": 535
     },
     {
-      "src": "photos/2/03-540.jpg",
-      "srcset": "photos/2/03-540.jpg 540w",
-      "full": "photos/2/03-540.jpg",
-      "w": 540,
-      "h": 360
+      "src": "photos/2/03-800.jpg",
+      "srcset": "photos/2/03-800.jpg 800w, photos/2/03-1600.jpg 1600w",
+      "full": "photos/2/03-1600.jpg",
+      "w": 800,
+      "h": 535
     },
     {
-      "src": "photos/2/04-360.jpg",
-      "srcset": "photos/2/04-360.jpg 360w",
-      "full": "photos/2/04-360.jpg",
-      "w": 360,
-      "h": 540
+      "src": "photos/2/04-800.jpg",
+      "srcset": "photos/2/04-800.jpg 800w, photos/2/04-1368.jpg 1368w",
+      "full": "photos/2/04-1368.jpg",
+      "w": 800,
+      "h": 1198
     },
     {
-      "src": "photos/2/05-360.jpg",
-      "srcset": "photos/2/05-360.jpg 360w",
-      "full": "photos/2/05-360.jpg",
-      "w": 360,
-      "h": 540
+      "src": "photos/2/05-800.jpg",
+      "srcset": "photos/2/05-800.jpg 800w, photos/2/05-1368.jpg 1368w",
+      "full": "photos/2/05-1368.jpg",
+      "w": 800,
+      "h": 1198
     },
     {
-      "src": "photos/2/06-360.jpg",
-      "srcset": "photos/2/06-360.jpg 360w",
-      "full": "photos/2/06-360.jpg",
-      "w": 360,
-      "h": 540
+      "src": "photos/2/06-800.jpg",
+      "srcset": "photos/2/06-800.jpg 800w, photos/2/06-1368.jpg 1368w",
+      "full": "photos/2/06-1368.jpg",
+      "w": 800,
+      "h": 1198
     },
     {
       "src": "photos/2/07-800.jpg",
@@ -86,53 +86,53 @@ window.CQ_PHOTOS = {
   ],
   "4": [
     {
-      "src": "photos/4/01-540.jpg",
-      "srcset": "photos/4/01-540.jpg 540w",
-      "full": "photos/4/01-540.jpg",
-      "w": 540,
-      "h": 360
+      "src": "photos/4/01-800.jpg",
+      "srcset": "photos/4/01-800.jpg 800w, photos/4/01-1600.jpg 1600w",
+      "full": "photos/4/01-1600.jpg",
+      "w": 800,
+      "h": 535
     },
     {
-      "src": "photos/4/02-540.jpg",
-      "srcset": "photos/4/02-540.jpg 540w",
-      "full": "photos/4/02-540.jpg",
-      "w": 540,
-      "h": 360
+      "src": "photos/4/02-800.jpg",
+      "srcset": "photos/4/02-800.jpg 800w, photos/4/02-1600.jpg 1600w",
+      "full": "photos/4/02-1600.jpg",
+      "w": 800,
+      "h": 535
     },
     {
-      "src": "photos/4/03-540.jpg",
-      "srcset": "photos/4/03-540.jpg 540w",
-      "full": "photos/4/03-540.jpg",
-      "w": 540,
-      "h": 360
+      "src": "photos/4/03-800.jpg",
+      "srcset": "photos/4/03-800.jpg 800w, photos/4/03-1600.jpg 1600w",
+      "full": "photos/4/03-1600.jpg",
+      "w": 800,
+      "h": 535
     },
     {
-      "src": "photos/4/04-540.jpg",
-      "srcset": "photos/4/04-540.jpg 540w",
-      "full": "photos/4/04-540.jpg",
-      "w": 540,
-      "h": 360
+      "src": "photos/4/04-800.jpg",
+      "srcset": "photos/4/04-800.jpg 800w, photos/4/04-1600.jpg 1600w",
+      "full": "photos/4/04-1600.jpg",
+      "w": 800,
+      "h": 535
     },
     {
-      "src": "photos/4/05-360.jpg",
-      "srcset": "photos/4/05-360.jpg 360w",
-      "full": "photos/4/05-360.jpg",
-      "w": 360,
-      "h": 540
+      "src": "photos/4/05-800.jpg",
+      "srcset": "photos/4/05-800.jpg 800w, photos/4/05-1368.jpg 1368w",
+      "full": "photos/4/05-1368.jpg",
+      "w": 800,
+      "h": 1198
     },
     {
-      "src": "photos/4/06-360.jpg",
-      "srcset": "photos/4/06-360.jpg 360w",
-      "full": "photos/4/06-360.jpg",
-      "w": 360,
-      "h": 540
+      "src": "photos/4/06-800.jpg",
+      "srcset": "photos/4/06-800.jpg 800w, photos/4/06-1368.jpg 1368w",
+      "full": "photos/4/06-1368.jpg",
+      "w": 800,
+      "h": 1198
     },
     {
-      "src": "photos/4/07-360.jpg",
-      "srcset": "photos/4/07-360.jpg 360w",
-      "full": "photos/4/07-360.jpg",
-      "w": 360,
-      "h": 540
+      "src": "photos/4/07-800.jpg",
+      "srcset": "photos/4/07-800.jpg 800w, photos/4/07-1368.jpg 1368w",
+      "full": "photos/4/07-1368.jpg",
+      "w": 800,
+      "h": 1198
     },
     {
       "src": "photos/4/08-800.jpg",
@@ -148,21 +148,21 @@ window.CQ_PHOTOS = {
       "srcset": "photos/5/01-800.jpg 800w, photos/5/01-1600.jpg 1600w",
       "full": "photos/5/01-1600.jpg",
       "w": 800,
-      "h": 533
+      "h": 534
     },
     {
       "src": "photos/5/02-800.jpg",
       "srcset": "photos/5/02-800.jpg 800w, photos/5/02-1600.jpg 1600w",
       "full": "photos/5/02-1600.jpg",
       "w": 800,
-      "h": 533
+      "h": 534
     },
     {
       "src": "photos/5/03-800.jpg",
       "srcset": "photos/5/03-800.jpg 800w, photos/5/03-1600.jpg 1600w",
       "full": "photos/5/03-1600.jpg",
       "w": 800,
-      "h": 533
+      "h": 534
     },
     {
       "src": "photos/5/04-800.jpg",
@@ -172,11 +172,11 @@ window.CQ_PHOTOS = {
       "h": 1200
     },
     {
-      "src": "photos/5/05-360.jpg",
-      "srcset": "photos/5/05-360.jpg 360w",
-      "full": "photos/5/05-360.jpg",
-      "w": 360,
-      "h": 540
+      "src": "photos/5/05-800.jpg",
+      "srcset": "photos/5/05-800.jpg 800w, photos/5/05-1368.jpg 1368w",
+      "full": "photos/5/05-1368.jpg",
+      "w": 800,
+      "h": 1198
     }
   ],
   "6": [
@@ -313,18 +313,18 @@ window.CQ_PHOTOS = {
   ],
   "9": [
     {
-      "src": "photos/9/01-540.jpg",
-      "srcset": "photos/9/01-540.jpg 540w",
-      "full": "photos/9/01-540.jpg",
-      "w": 540,
-      "h": 360
+      "src": "photos/9/01-800.jpg",
+      "srcset": "photos/9/01-800.jpg 800w, photos/9/01-1600.jpg 1600w",
+      "full": "photos/9/01-1600.jpg",
+      "w": 800,
+      "h": 535
     },
     {
-      "src": "photos/9/02-540.jpg",
-      "srcset": "photos/9/02-540.jpg 540w",
-      "full": "photos/9/02-540.jpg",
-      "w": 540,
-      "h": 360
+      "src": "photos/9/02-800.jpg",
+      "srcset": "photos/9/02-800.jpg 800w, photos/9/02-1600.jpg 1600w",
+      "full": "photos/9/02-1600.jpg",
+      "w": 800,
+      "h": 535
     },
     {
       "src": "photos/9/03-800.jpg",
