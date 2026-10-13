@@ -111,6 +111,7 @@ p { margin: 0 0 1em; }
 .gallery-nav.next { right: 10px; }
 .gallery-count { position: absolute; right: 10px; bottom: 10px; background: rgba(0,0,0,.6); color: #fff; font-size: .8rem; padding: 2px 9px; border-radius: 999px; pointer-events: none; }
 @media (hover: hover) { .gallery-nav { display: block; } }
+.gallery-nav[hidden], .gallery-count[hidden] { display: none !important; }
 
 /* Steps */
 .steps { margin: 0; padding-left: 1.3em; display: grid; gap: 12px; max-width: 46em; }
@@ -149,7 +150,8 @@ dialog::backdrop { background: rgba(10, 20, 16, .62); }
 
 .lightbox { width: 100%; height: 100%; max-width: 100%; max-height: 100%; background: #050a08; color: #fff; }
 .lightbox[open] { display: flex; align-items: center; justify-content: center; }
-.lightbox img { max-width: 100%; max-height: 100%; object-fit: contain; }
+/* Every photo fills the viewer (same size on screen whatever the file size). */
+.lightbox img { width: 100%; height: 100%; object-fit: contain; }
 .lightbox .icon-btn { position: absolute; background: rgba(255,255,255,.14); color: #fff; }
 .lightbox .icon-btn:hover { background: rgba(255,255,255,.28); }
 .lightbox .icon-btn[hidden] { display: none; }

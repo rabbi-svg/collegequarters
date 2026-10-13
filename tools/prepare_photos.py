@@ -36,6 +36,7 @@ ROOT = Path(__file__).resolve().parent.parent
 PHOTOS_DIR = ROOT / "photos"
 MANIFEST = ROOT / "assets" / "js" / "photos.js"
 SIZES = (800, 1600)
+MIN_LONG_SIDE = 1600  # smaller than this is almost always a preview/thumbnail, not the original
 EXTS = {".jpg", ".jpeg", ".png", ".webp", ".heic", ".heif"}
 
 
@@ -63,6 +64,9 @@ def clean_image(path):
         return Image.frombytes("RGB", im.size, im.tobytes())
 
 
+SMALL = []  # sources too small to give a proper enlarged view
+
+
 def process_room(src_dir):
     key = slug(src_dir.name)
     out_dir = PHOTOS_DIR / key
@@ -80,6 +84,8 @@ def process_room(src_dir):
             copy = im if width == im.width else im.resize((width, round(im.height * width / im.width)), Image.LANCZOS)
             copy.save(out_dir / f"{n:02d}-{width}.jpg", "JPEG", quality=82, optimize=True, progressive=True)
         print(f"  {src_dir.name}: {f.name} ({im.width}x{im.height})")
+        if max(im.size) < MIN_LONG_SIDE:
+            SMALL.append(f"{src_dir.name}/{f.name} ({im.width}x{im.height})")
     return key, len(files)
 
 
@@ -129,6 +135,12 @@ def main():
         print(f"{room_dir.name} -> photos/{key}/ ({count or 0} photos)")
     build_manifest()
     print(f"Updated {MANIFEST.relative_to(ROOT)}")
+    if SMALL:
+        print(f"\nWARNING {len(SMALL)} photo(s) are smaller than {MIN_LONG_SIDE}px on the long side. These are")
+        print("previews, not originals: the enlarged view will be soft. Ask for the full-size originals")
+        print("(e.g. Photos > File > Export > Export Unmodified Original):")
+        for s in SMALL:
+            print("  " + s)
 
 
 if __name__ == "__main__":

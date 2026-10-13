@@ -218,8 +218,26 @@
     }
   }
 
-  // Photo folders are named by room number ("2"); the feed may say "2" or "Room 2".
-  function roomPhotos(name) {
+  // The feed's photos for a room (image URLs, first one is the main photo).
+  function feedPhotos(r) {
+    var out = [];
+    (Array.isArray(r.photos) ? r.photos : []).forEach(function (p) {
+      var url = directImageUrl(typeof p === "string" ? p : p && (p.url || p.src));
+      if (url && !out.some(function (o) { return o.src === url; })) out.push({ src: url, full: url, remote: true });
+    });
+    return out;
+  }
+
+  // Only http(s) links are used. Google Drive share links are turned into direct image links.
+  function directImageUrl(v) {
+    var u = str(v);
+    if (!/^https?:\/\//i.test(u)) return "";
+    var m = /^https:\/\/drive\.google\.com\/(?:file\/d\/([\w-]+)|(?:open|uc)\?(?:[^#]*&)?id=([\w-]+))/.exec(u);
+    return m ? "https://lh3.googleusercontent.com/d/" + (m[1] || m[2]) + "=w2000" : u;
+  }
+
+  // Photos stored in this repo. Folders are named by room number ("2"); the feed may say "2" or "Room 2".
+  function repoPhotos(name) {
     var m = /^room\s*(.+)$/i.exec(str(name));
     return PHOTOS[slug(name)] || (m && PHOTOS[slug(m[1])]) || [];
   }
@@ -228,7 +246,9 @@
     var name = str(r.room);
     var label = roomLabel(name);
     var avail = availability(r);
-    var photos = roomPhotos(name);
+    var fromFeed = feedPhotos(r);
+    var fallback = function () { return repoPhotos(name); };
+    var photos = fromFeed.length ? fromFeed : fallback();
 
     var badge = el("span", { class: "badge " + (avail.now ? "badge-now" : "badge-later"), text: avail.text });
     var price = formatPrice(r.price);
@@ -245,12 +265,14 @@
       askBtn
     ]);
 
-    return el("article", { class: "card room", id: id, "aria-label": label }, [gallery(photos, label, eager), body]);
+    return el("article", { class: "card room", id: id, "aria-label": label }, [gallery(photos, label, eager, fromFeed.length ? fallback : null), body]);
   }
 
   /* ---------------- Photo gallery ---------------- */
 
-  function gallery(photos, label, eager) {
+  // fallback: returns the repo photos, used if every feed photo fails to load.
+  function gallery(photos, label, eager, fallback) {
+    photos = photos.slice();
     if (!photos.length) {
       return el("div", { class: "gallery gallery-empty" }, [el("span", { text: W.t("rooms.noPhotos") })]);
     }
@@ -264,18 +286,38 @@
         height: p.h || null,
         alt: p.alt || label + ", photo " + (i + 1) + " of " + photos.length,
         loading: eager && i === 0 ? "eager" : "lazy",
-        decoding: "async"
+        decoding: "async",
+        referrerpolicy: p.remote ? "no-referrer" : null
       });
       var btn = el("button", { class: "slide", type: "button", "aria-label": "View larger: " + label + ", photo " + (i + 1) }, [img]);
-      btn.addEventListener("click", function () { openLightbox(photos, i, label); });
+      btn.addEventListener("click", function () { openLightbox(photos, photos.indexOf(p), label); });
+      // A feed photo that doesn't load is dropped; if none are left, the repo photos are shown.
+      if (p.remote) img.addEventListener("error", function () { dropPhoto(p, btn); }, { once: true });
       track.appendChild(btn);
     });
 
     var wrap = el("div", { class: "gallery" }, [track]);
+    var count = null, prev = null, next = null;
+    function dropPhoto(p, btn) {
+      var at = photos.indexOf(p);
+      if (at < 0) return;
+      photos.splice(at, 1);
+      btn.remove();
+      if (!photos.length) {
+        wrap.replaceWith(gallery(fallback ? fallback() : [], label, eager, null));
+        return;
+      }
+      if (count) {
+        var single = photos.length < 2;
+        count.hidden = prev.hidden = next.hidden = single;
+        count.textContent = "1 / " + photos.length;
+        track.dispatchEvent(new Event("scroll"));
+      }
+    }
     if (photos.length > 1) {
-      var count = el("span", { class: "gallery-count", text: "1 / " + photos.length });
-      var prev = el("button", { class: "gallery-nav prev", type: "button", "aria-label": "Previous photo", text: "‹" });
-      var next = el("button", { class: "gallery-nav next", type: "button", "aria-label": "Next photo", text: "›" });
+      count = el("span", { class: "gallery-count", text: "1 / " + photos.length });
+      prev = el("button", { class: "gallery-nav prev", type: "button", "aria-label": "Previous photo", text: "‹" });
+      next = el("button", { class: "gallery-nav next", type: "button", "aria-label": "Next photo", text: "›" });
       var step = function (dir) { track.scrollBy({ left: dir * track.clientWidth, behavior: "smooth" }); };
       prev.addEventListener("click", function () { step(-1); });
       next.addEventListener("click", function () { step(1); });
@@ -299,6 +341,7 @@
 
   function showLightboxPhoto() {
     var p = lbState.photos[lbState.i];
+    lbImg.referrerPolicy = p.remote ? "no-referrer" : "";
     lbImg.src = p.full || p.src;
     lbImg.alt = p.alt || lbState.label + ", photo " + (lbState.i + 1);
     lbCount.textContent = (lbState.i + 1) + " / " + lbState.photos.length;

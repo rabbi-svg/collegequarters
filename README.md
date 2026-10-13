@@ -14,7 +14,8 @@ Public website for College Quarters, student rooms for rent in Athens, Ohio
 - **Wording**: every visible text is in `wording.json` (key, plain-words label, original default). The back office
   overrides any of them through the feed's `"wording"` object; the site applies it on every visit, and a daily
   GitHub Actions run writes it into the published pages for Google and link previews. Rules: `CLAUDE.md`.
-- **Photos** are stored in this repository (`photos/`), matched to rooms by the room name in the feed.
+- **Photos** come from the feed's `photos` list for each room (first one is the main photo). When a room's
+  list is empty, the photos stored in this repository (`photos/`) are used, matched by the room name.
 - The site only shows room details and your business contact details. It never displays tenant information.
 
 ## Files
