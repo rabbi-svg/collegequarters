@@ -421,12 +421,6 @@
           "long": false
         },
         {
-          "key": "footer.landlordLabel",
-          "label": "Word before the landlord's name at the bottom",
-          "default": "Landlord:",
-          "long": false
-        },
-        {
           "key": "footer.copyright",
           "label": "Copyright line (the © sign and the current year are added in front automatically)",
           "default": "College Quarters. Not affiliated with Ohio University.",
