@@ -6,8 +6,6 @@
   var CFG = window.CQ_CONFIG || {};
   var PHOTOS = window.CQ_PHOTOS || {};
   var W = window.CQ_WORDING;
-  var defaultsPromise = W.loadDefaults();
-  var FEED_TIMEOUT_MS = 15000;
   var POST_TIMEOUT_MS = 25000;
 
   var $ = function (sel, root) { return (root || document).querySelector(sel); };
@@ -127,49 +125,37 @@
     roomsStatus.hidden = false;
   }
 
-  var loadSeq = 0, lastLoaded = 0, hasRooms = false;
+  // Rooms and contact details are written into the page (cq-data block) when the site is published
+  // from data/site.json, which the Rentals app saves. Nothing is fetched from the Apps Script here.
+  function siteData() {
+    var block = document.getElementById("cq-data");
+    try {
+      var data = block ? JSON.parse(block.textContent) : null;
+      return data && Array.isArray(data.rooms) ? data : null;
+    } catch (e) {
+      return null;
+    }
+  }
 
-  // silent = refresh in the background (returning visitor) without flashing the loading state.
-  function loadRooms(silent) {
-    var seq = ++loadSeq;
-    if (!(silent && hasRooms)) showStatus([
-      el("div", { class: "skeleton-card", "aria-hidden": "true" }),
-      el("div", { class: "skeleton-card", "aria-hidden": "true" })
-    ]);
-
-    fetchWithTimeout(CFG.FEED_URL, { cache: "no-store", credentials: "omit" }, FEED_TIMEOUT_MS)
-      .then(function (res) {
-        if (!res.ok) throw new Error("HTTP " + res.status);
-        return res.json();
-      })
-      .then(function (data) {
-        if (!data || data.ok === false || !Array.isArray(data.rooms)) throw new Error("bad feed");
-        return defaultsPromise.then(function (defaults) { return { data: data, defaults: defaults }; });
-      })
-      .then(function (r) {
-        if (seq !== loadSeq) return;
-        var data = r.data;
-        // The office's wording first, so everything below renders with it.
-        W.apply(data.wording, r.defaults);
-        // Contact details always come from the feed (config.js only has a backup).
-        ["landlord", "phone", "email", "address"].forEach(function (k) {
-          if (str(data[k])) contact[k] = str(data[k]);
-        });
-        renderContact();
-        renderRooms(data.rooms);
-        lastLoaded = Date.now();
-      })
-      .catch(function () {
-        if (seq !== loadSeq || (silent && hasRooms)) return; // keep showing what we have
-        var retry = el("button", { class: "btn btn-ghost", type: "button", text: W.t("rooms.tryAgain") });
-        retry.addEventListener("click", function () { loadRooms(false); });
-        showStatus([
-          el("div", { class: "notice" }, [
-            el("p", { text: W.t("rooms.loadError") + contactSentence() }),
-            retry
-          ])
-        ]);
-      });
+  function loadRooms() {
+    var data = siteData();
+    if (!data) {
+      var retry = el("button", { class: "btn btn-ghost", type: "button", text: W.t("rooms.tryAgain") });
+      retry.addEventListener("click", function () { location.reload(); });
+      showStatus([
+        el("div", { class: "notice" }, [
+          el("p", { text: W.t("rooms.loadError") + contactSentence() }),
+          retry
+        ])
+      ]);
+      return;
+    }
+    // Contact details come from the saved data (config.js only has a backup).
+    ["landlord", "phone", "email", "address"].forEach(function (k) {
+      if (str(data[k])) contact[k] = str(data[k]);
+    });
+    renderContact();
+    renderRooms(data.rooms);
   }
 
   // availableText is shown exactly as the back office sends it ("Available May 2027", "Available now").
@@ -190,7 +176,6 @@
     $$("option:not([value=''])", select).forEach(function (o) { o.remove(); });
 
     var valid = rooms.filter(function (r) { return r && str(r.room); });
-    hasRooms = valid.length > 0;
     if (!valid.length) {
       showStatus([el("div", { class: "notice" }, [
         el("p", { text: W.t("rooms.none") + contactSentence() }),
@@ -212,7 +197,7 @@
     });
 
     // Honor links like .../#room-2a once rooms exist (first load only).
-    if (!lastLoaded && location.hash && location.hash.indexOf("#room-") === 0) {
+    if (location.hash && location.hash.indexOf("#room-") === 0) {
       var target = document.getElementById(location.hash.slice(1));
       if (target) target.scrollIntoView();
     }
@@ -512,12 +497,5 @@
 
   $("#year").textContent = String(new Date().getFullYear());
   renderContact();
-  loadRooms(false);
-
-  // Availability can change at any time, so a visitor coming back gets fresh data:
-  // via the Back button (page restored from memory) or returning to a tab left open.
-  window.addEventListener("pageshow", function (e) { if (e.persisted) loadRooms(true); });
-  document.addEventListener("visibilitychange", function () {
-    if (document.visibilityState === "visible" && lastLoaded && Date.now() - lastLoaded > 5 * 60 * 1000) loadRooms(true);
-  });
+  loadRooms();
 })();
