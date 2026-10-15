@@ -1,0 +1,85 @@
+{
+  "landlord": "Chabad Servicing Ohio University",
+  "phone": "7405416737",
+  "email": "chanee@jewishbobcats.com",
+  "address": "12 N College St Athens OH 45701",
+  "rooms": [
+    {
+      "room": "2",
+      "price": "690",
+      "description": "Spacious room with a large loft for extra storage or a hangout space. This room shares a Jack and Jill bathroom with Room 4, so it will only be rented to the same gender as the occupant of Room 4 for privacy and comfort.\n\nFurnished with: Bed, desk and chair, night table",
+      "availableNow": false,
+      "availableFrom": "2027-05-01",
+      "availableText": "Available May 2027",
+      "photos": []
+    },
+    {
+      "room": "4",
+      "price": "690",
+      "description": "Spacious room with a large loft for extra storage or a hangout space. This room shares a Jack and Jill bathroom with Room 2, so it will only be rented to the same gender as the occupant of Room 2 for privacy and comfort.\n\nFurnished with: Bed, desk and chair, night table",
+      "availableNow": false,
+      "availableFrom": "2027-05-01",
+      "availableText": "Available May 2027",
+      "photos": []
+    },
+    {
+      "room": "5",
+      "price": "750",
+      "description": "Spacious room with PRIVATE bathroom.\nLarge loft for extra storage or a hangout space. \nFurnished with: Bed, desk and chair, night table",
+      "availableNow": false,
+      "availableFrom": "2027-01-01",
+      "availableText": "Available January 2027",
+      "photos": []
+    },
+    {
+      "room": "6",
+      "price": "750",
+      "description": "Spacious room with PRIVATE bathroom.\nLarge loft for extra storage or a hangout space. \nFurnished with: Bed, desk and chair, night table",
+      "availableNow": false,
+      "availableFrom": "2027-01-01",
+      "availableText": "Available January 2027",
+      "photos": []
+    },
+    {
+      "room": "7",
+      "price": "690",
+      "description": "Spacious room with a large loft for extra storage or a hangout space. This room shares a Jack and Jill bathroom with Room 9, so it will only be rented to the same gender as the occupant of Room 9 for privacy and comfort.\n\nFurnished with: Bed, desk and chair, night table",
+      "availableNow": false,
+      "availableFrom": "2027-05-01",
+      "availableText": "Available May 2027",
+      "photos": []
+    },
+    {
+      "room": "8",
+      "price": "690",
+      "description": "Spacious room with a large loft for extra storage or a hangout space. This room shares a Jack and Jill bathroom with Room 10, so it will only be rented to the same gender as the occupant of Room 10 for privacy and comfort.\n\nFurnished with: Bed, desk and chair, night table",
+      "availableNow": false,
+      "availableFrom": "2027-05-01",
+      "availableText": "Available May 2027",
+      "photos": []
+    },
+    {
+      "room": "9",
+      "price": "690",
+      "description": "Spacious room with a large loft for extra storage or a hangout space. This room shares a Jack and Jill bathroom with Room 7 so it will only be rented to the same gender as the occupant of Room 7 for privacy and comfort.\n\nFurnished with: Bed, desk and chair, night table",
+      "availableNow": false,
+      "availableFrom": "2027-05-01",
+      "availableText": "Available May 2027",
+      "photos": []
+    },
+    {
+      "room": "10",
+      "price": "690",
+      "description": "Spacious room with a large loft for extra storage or a hangout space. This room shares a Jack and Jill bathroom with Room 8, so it will only be rented to the same gender as the occupant of Room 8 for privacy and comfort.\n\nFurnished with: Bed, desk and chair, night table",
+      "availableNow": false,
+      "availableFrom": "2027-05-01",
+      "availableText": "Available May 2027",
+      "photos": []
+    }
+  ],
+  "wording": {
+    "hero.eyebrow": "12 N College St. Athens, Ohio",
+    "hero.title": "Furnished student rooms in Athens.",
+    "how.step3.text": "We answer by e-mail or phone to set up a viewing and talk through the details.\n\nAll rooms have a flat utilities rate of $110/month, including electric, wifi and all utilities.\n\nLaundry room and kitchenette are shared with 6 tenants. \n\nCome take a tour!"
+  }
+}
