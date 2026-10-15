@@ -6,20 +6,25 @@
  * data/site.json in the GitHub repository rabbi-svg/collegequarters. GitHub then republishes
  * https://collegequarters.net/ in about a minute. The website never calls this app when a page opens.
  *
- * The data comes from this app's own room feed (doGet with feed=rooms), so it is exactly what the
- * website showed before, and only the fields the website uses are saved: no tenant information.
+ * When it runs:
+ *  - every Save on the Website tab (rooms, one room's listing, wording, photos), and Save on Setup;
+ *  - by itself once a night (about 1 AM), so availability that follows the leases stays current.
+ *    Run setupWebsite() once from the editor to switch the nightly save on.
+ *
+ * Only the fields the website uses are saved: no tenant information.
  *
  * Setup: Project Settings > Script properties > add GITHUB_TOKEN with your GitHub access key.
- * The Website tab's Save calls publishWebsite() and shows the message it returns.
  */
 
 var WEBSITE_GITHUB_REPO = 'rabbi-svg/collegequarters';
 var WEBSITE_GITHUB_BRANCH = 'main';
 var WEBSITE_DATA_PATH = 'data/site.json';
+var WEBSITE_DAILY_HOUR = 1; // the nightly save runs between 1 and 2 AM
 
 /**
  * Builds the website data and saves it to GitHub.
  * Returns { ok: true, message } or { ok: false, error } (plain words, safe to show on the Website tab).
+ * Never call this from inside withLock_ (it takes the same lock itself).
  */
 function publishWebsite() {
   var lock = LockService.getScriptLock();
@@ -28,8 +33,10 @@ function publishWebsite() {
     if (!token) {
       return { ok: false, error: 'Website not updated: the GitHub key is missing. Add GITHUB_TOKEN under Project Settings > Script properties.' };
     }
-    var json = JSON.stringify(websiteData_(), null, 2) + '\n';
+    // Read the sheets only once the lock is held, so two saves close together can never
+    // put older data on the website after newer data.
     lock.waitLock(30000);
+    var json = JSON.stringify(websiteData_(), null, 2) + '\n';
     for (var attempt = 0; attempt < 2; attempt++) {
       var current = githubRequest_('get', token, '?ref=' + encodeURIComponent(WEBSITE_GITHUB_BRANCH));
       var sha = null;
@@ -65,24 +72,37 @@ function publishWebsite() {
   }
 }
 
-/** Run this once from the editor (choose it in the toolbar, press Run) to approve access and publish now. */
-function testPublishWebsite() {
+/** Called by the app's Website tab (after photo changes, or Save with nothing else changed). */
+function publishSite(token) {
+  check_(token);
+  return publishWebsite();
+}
+
+/**
+ * Run this once from the editor (choose it in the toolbar, press Run, allow permissions).
+ * It switches on the nightly website save and updates the website right away.
+ */
+function setupWebsite() {
+  ScriptApp.getProjectTriggers().forEach(function (t) {
+    if (t.getHandlerFunction() === 'dailyWebsiteSave') ScriptApp.deleteTrigger(t);
+  });
+  ScriptApp.newTrigger('dailyWebsiteSave').timeBased().everyDays(1).atHour(WEBSITE_DAILY_HOUR).create();
+  Logger.log('Nightly website save switched on (runs between ' + WEBSITE_DAILY_HOUR + ' and ' + (WEBSITE_DAILY_HOUR + 1) + ' AM).');
   var result = publishWebsite();
   Logger.log(JSON.stringify(result));
   return result;
 }
 
-/** The website's data, built from this app's own room feed. Only the fields the website uses. */
+/** The nightly save. If it fails, Google e-mails you the reason. */
+function dailyWebsiteSave() {
+  var result = publishWebsite();
+  Logger.log(JSON.stringify(result));
+  if (!result.ok) throw new Error(result.error);
+}
+
+/** The website's data, built with the same rules the app uses (siteFeed_). Only the fields the website uses. */
 function websiteData_() {
-  var out = doGet({
-    parameter: { feed: 'rooms' },
-    parameters: { feed: ['rooms'] },
-    queryString: 'feed=rooms',
-    pathInfo: '',
-    contextPath: '',
-    contentLength: -1
-  });
-  var feed = JSON.parse(out && typeof out.getContent === 'function' ? out.getContent() : String(out));
+  var feed = siteFeed_();
   if (!feed || feed.ok === false || !Array.isArray(feed.rooms)) {
     throw new Error('the room list could not be built' + (feed && feed.error ? ' (' + feed.error + ')' : '') + '.');
   }

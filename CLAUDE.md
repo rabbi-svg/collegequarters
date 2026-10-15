@@ -25,7 +25,8 @@ The owner is not technical: do all the work, and give exact click-by-click steps
      address. Those come from the saved website data (`data/site.json`). Use its phone, e-mail and address for all
      contact details (`assets/js/config.js` `FALLBACK_CONTACT` is only a backup if the data has none).
 
-2. **Website data is saved, not fetched.** When the owner presses Save on the Website tab of the Rentals app, the
+2. **Website data is saved, not fetched.** When the owner presses Save on the Website or Setup tab of the Rentals app
+   (and once a night, from the `dailyWebsiteSave` trigger that `setupWebsite()` installs), the
    Apps Script (`apps-script/WebsitePublish.gs`, `publishWebsite()`) writes `data/site.json` to `main` through the
    GitHub API: `{ landlord, phone, email, address, rooms: [...], wording: { key: text } }` (wording = only the
    texts the office changed). That commit runs `.github/workflows/publish.yml`. **The website never calls the
@@ -59,7 +60,9 @@ The owner is not technical: do all the work, and give exact click-by-click steps
 - **Never show tenant information.** Only room details and business contact details are published: both
   `WebsitePublish.gs` and `build_site.py` keep only the whitelisted fields.
 - Rooms: only rooms switched on in the back office are in the saved data, already in order. They change on the
-  website only when the owner presses Save (the Apps Script builds them from its own `?feed=rooms` logic).
+  website only on a Save or the nightly save (the Apps Script builds them with its own `siteFeed_()` rules; the old
+  public `?feed=rooms` address no longer exists). Only `WebsitePublish.gs` is kept in `apps-script/`: the app's
+  other files contain its passcode and must never be committed to this public repo.
 - The Apps Script side lives in the owner's Rentals spreadsheet (Extensions > Apps Script); `apps-script/` holds the
   copies the owner pastes in. The GitHub key is the Script Property `GITHUB_TOKEN` (fine-grained, this repo only,
   Contents read and write) and must never be written into any file.
