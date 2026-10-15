@@ -22,18 +22,21 @@ The owner is not technical: do all the work, and give exact click-by-click steps
    - `default` is the original text and is the only place text is written in the repo besides the pages'
      built-in copies (which must match it).
    - **Not in wording.json**: room names, prices, descriptions and availability, and the phone, e-mail and
-     address. Those come from the feed. Use the feed's phone, e-mail and address for all contact details
-     (`assets/js/config.js` `FALLBACK_CONTACT` is only a backup for when the feed can't load).
+     address. Those come from the saved website data (`data/site.json`). Use its phone, e-mail and address for all
+     contact details (`assets/js/config.js` `FALLBACK_CONTACT` is only a backup if the data has none).
 
-2. **The feed** (`<Apps Script URL>?feed=rooms`) returns `"wording": { key: text }` with only the texts the office
-   changed. Each key shows its built-in default, replaced by the feed's text when present (a key missing from the
-   feed shows the `wording.json` default). Insert it as plain text (`textContent` / attributes), **never as HTML**.
-   If the feed fails, the built-in text stays.
+2. **Website data is saved, not fetched.** When the owner presses Save on the Website tab of the Rentals app, the
+   Apps Script (`apps-script/WebsitePublish.gs`, `publishWebsite()`) writes `data/site.json` to `main` through the
+   GitHub API: `{ landlord, phone, email, address, rooms: [...], wording: { key: text } }` (wording = only the
+   texts the office changed). That commit runs `.github/workflows/publish.yml`. **The website never calls the
+   Apps Script when a page loads**: no live feed, no swapping text after load. Don't edit `data/site.json` by hand.
 
-3. **Google and link previews** read the page before the feed loads, so `.github/workflows/publish.yml` builds the
-   site with the office's current wording written into the pages' built-in text, title and description, and
-   publishes it: on every push to `main`, once a day, and by hand. The build (`tools/build_site.py`) writes into a
-   `_site` copy only; the repo keeps the original text, so `wording.json` defaults stay the original text.
+3. **The build writes everything into the pages.** `tools/build_site.py` reads `data/site.json` and writes each
+   key's text (office text if present, otherwise the `wording.json` default; keys matched ignoring spaces and
+   capitals, blank texts ignored) into the pages' text, title and description, and the rooms and contact details
+   into index.html's `cq-data` block. Text is always escaped, **never inserted as HTML**. It writes into a `_site`
+   copy only; the repo keeps the original text, so `wording.json` defaults stay the original text. If
+   `data/site.json` is missing or invalid the build fails, so the previous site stays live.
 
 4. **Before finishing any change**, run `python3 tools/check_wording.py`. It must pass: `wording.json` is valid,
    every key used on the pages and in the scripts is in it, no unused keys, and built-in text matches the defaults.
@@ -53,9 +56,13 @@ The owner is not technical: do all the work, and give exact click-by-click steps
 
 ## Other standing rules
 
-- **Never show tenant information.** Only room details and business contact details from the feed are displayed.
-- Rooms: only rooms switched on in the back office are in the feed, already in order. Fetch the feed on every
-  visit (`cache: "no-store"`; also re-fetch on Back and when returning to a tab after 5+ minutes).
+- **Never show tenant information.** Only room details and business contact details are published: both
+  `WebsitePublish.gs` and `build_site.py` keep only the whitelisted fields.
+- Rooms: only rooms switched on in the back office are in the saved data, already in order. They change on the
+  website only when the owner presses Save (the Apps Script builds them from its own `?feed=rooms` logic).
+- The Apps Script side lives in the owner's Rentals spreadsheet (Extensions > Apps Script); `apps-script/` holds the
+  copies the owner pastes in. The GitHub key is the Script Property `GITHUB_TOKEN` (fine-grained, this repo only,
+  Contents read and write) and must never be written into any file.
 - Availability: show `availableText` exactly as sent ("Available May 2027", "Available now"). `availableFrom` is
   always the 1st of a month. **Never show a day of the month anywhere on the site.**
 - Forms POST JSON to `APP_URL` with `Content-Type: text/plain` (no CORS preflight):
@@ -63,9 +70,9 @@ The owner is not technical: do all the work, and give exact click-by-click steps
   `website` is a hidden honeypot that must stay empty. When `ok` is false, show the `error` text. After `mylink`,
   always show the same confirmation.
 - Mobile first, fast (no frameworks or libraries), good link previews.
-- Room photos: the feed's `photos` array (image URLs, first = main photo) is shown when present. If it is
-  missing or empty, or every feed photo fails to load, the repo photos (`assets/js/photos.js`) are used. Only
-  http(s) URLs are used; Google Drive share links are converted to direct image links. Feed photos are not
+- Room photos: a room's saved `photos` array (image URLs, first = main photo) is shown when present. If it is
+  missing or empty, or every one fails to load, the repo photos (`assets/js/photos.js`) are used. Only
+  http(s) URLs are used; Google Drive share links are converted to direct image links. Those photos are not
   processed by this repo, so the back office is responsible for their privacy (blurring, metadata).
 - Photos: `python3 tools/prepare_photos.py <folder>` (one sub-folder per room, named as in the feed). It makes
   web-sized copies with all metadata removed. Look at every photo first: rooms are often occupied, so blur
@@ -80,5 +87,5 @@ The owner is not technical: do all the work, and give exact click-by-click steps
 - GitHub Pages source is **GitHub Actions** (`.github/workflows/publish.yml`); the custom domain
   `collegequarters.net` and Enforce HTTPS are set in Settings → Pages. Keep the `CNAME` file.
 - Work happens on a feature branch; it goes live once merged into `main`.
-- Test locally: `python3 tools/build_site.py --out _site` (add `--feed-file saved.json` when offline), then serve
+- Test locally: `python3 tools/build_site.py --out _site` (or `--data-file other.json`), then serve
   `_site` and open it in a browser.
