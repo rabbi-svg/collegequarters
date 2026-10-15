@@ -22,7 +22,7 @@ import urllib.request
 from wording_lib import PAGES, ROOT, bake, defaults_map
 
 # Files and folders that are part of the published site.
-SITE = ["index.html", "404.html", "wording.json", "robots.txt", "CNAME", ".nojekyll", "assets", "photos"]
+SITE = ["index.html", "404.html", "tenant.html", "wording.json", "robots.txt", "CNAME", ".nojekyll", "assets", "photos"]
 
 
 def feed_url():

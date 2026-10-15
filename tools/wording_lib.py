@@ -6,7 +6,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 WORDING = ROOT / "wording.json"
-PAGES = ["index.html", "404.html"]
+PAGES = ["index.html", "404.html", "tenant.html"]
 JS_DIR = ROOT / "assets" / "js"
 KEY_RE = re.compile(r"^[A-Za-z0-9._-]+$")
 

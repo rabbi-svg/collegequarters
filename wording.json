@@ -456,6 +456,23 @@
           "long": false
         }
       ]
+    },
+    {
+      "title": "Tenant link page (collegequarters.net/tenant, opens a tenant's private link to the Rentals app)",
+      "items": [
+        {
+          "key": "tenant.pageTitle",
+          "label": "Page title (shown on the browser tab)",
+          "default": "College Quarters",
+          "long": false
+        },
+        {
+          "key": "tenant.incomplete",
+          "label": "Message shown when the link is missing its private part",
+          "default": "This link is not complete. Please ask the office for your link.",
+          "long": true
+        }
+      ]
     }
   ]
 }
