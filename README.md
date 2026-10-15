@@ -7,7 +7,8 @@ Public website for College Quarters, student rooms for rent in Athens, Ohio
 
 - **Rooms, prices, availability, contact details and wording** are saved by the Rentals app: pressing Save on its
   Website tab writes `data/site.json` into this repository (GitHub API), and GitHub Pages republishes in about a
-  minute. The site never calls the Apps Script when a page loads. The Apps Script file is in `apps-script/`.
+  minute. The app also saves by itself every night, so availability that follows the leases stays current. The site
+  never calls the Apps Script when a page loads. The Apps Script file is in `apps-script/`.
 - **Forms** (ask about a room, general contact, current tenants "e-mail me my link") send a JSON body as
   `Content-Type: text/plain` to the back-office web app (`APP_URL`). If it answers `ok: false`, the visitor
   sees its `error` text.
