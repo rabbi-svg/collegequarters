@@ -5,14 +5,14 @@
       "items": [
         {
           "key": "meta.title",
-          "label": "Page title (shown on the browser tab, in Google results and on shared links)",
-          "default": "College Quarters | Student Rooms for Rent in Athens, Ohio",
+          "label": "Page title of the home page (shown on the browser tab, in Google results and on shared links)",
+          "default": "Furnished Student Rooms near Ohio University, Athens, Ohio | College Quarters",
           "long": false
         },
         {
           "key": "meta.description",
-          "label": "Short description of the site (shown in Google results and on shared links)",
-          "default": "Student rooms for rent in Athens, Ohio, for Ohio University students. See photos, prices and live availability, and ask about a room in a minute.",
+          "label": "Short description of the home page (shown in Google results and on shared links)",
+          "default": "Furnished student rooms for rent near Ohio University in Athens, Ohio. See photos, the monthly price and availability of every room, and ask about one in minutes.",
           "long": true
         }
       ]
@@ -115,8 +115,14 @@
           "long": false
         },
         {
+          "key": "rooms.detailsLink",
+          "label": "Link on each room to its own page (all photos and details)",
+          "default": "See all photos and details",
+          "long": false
+        },
+        {
           "key": "rooms.askButton",
-          "label": "Button on each room",
+          "label": "Button on each room (on the home page)",
           "default": "Ask about this room",
           "long": false
         },
@@ -131,24 +137,6 @@
           "label": "Button under the \"no rooms listed\" message",
           "default": "Ask about upcoming openings",
           "long": false
-        },
-        {
-          "key": "rooms.loadError",
-          "label": "Message when the room list can't be loaded",
-          "default": "We couldn't load the current room list right now.",
-          "long": true
-        },
-        {
-          "key": "rooms.tryAgain",
-          "label": "Button to try loading the room list again",
-          "default": "Try again",
-          "long": false
-        },
-        {
-          "key": "rooms.noscript",
-          "label": "Message for visitors whose browser can't show the room list (JavaScript turned off)",
-          "default": "Please turn on JavaScript to see our rooms and live availability, or contact us using the details below.",
-          "long": true
         },
         {
           "key": "common.reachUs",
@@ -177,6 +165,47 @@
           "key": "dialog.sendButton",
           "label": "Send button in the pop-up",
           "default": "Send question",
+          "long": false
+        }
+      ]
+    },
+    {
+      "title": "Room pages (each room has its own page, e.g. collegequarters.net/rooms/2/)",
+      "items": [
+        {
+          "key": "room.pageTitle",
+          "label": "Page title of a room page (browser tab, Google results, shared links). {room} is replaced with the room name, {price} with its price",
+          "default": "Furnished Student Room near Ohio University: {room}, {price} | College Quarters",
+          "long": false
+        },
+        {
+          "key": "room.pageDescription",
+          "label": "Short description of a room page (Google results and shared links). {room} = room name, {price} = price, {availability} = when it is available, {description} = the start of the room's description",
+          "default": "{room} at College Quarters, a furnished student room near Ohio University in Athens, Ohio, for {price}. {availability}. {description}",
+          "long": true
+        },
+        {
+          "key": "room.back",
+          "label": "Link at the top of a room page back to all rooms",
+          "default": "← All rooms",
+          "long": false
+        },
+        {
+          "key": "room.eyebrow",
+          "label": "Small line above the room name",
+          "default": "Furnished student room · Athens, Ohio · Near Ohio University",
+          "long": false
+        },
+        {
+          "key": "room.formTitle",
+          "label": "Heading of the question form on a room page ({room} is replaced with the room name)",
+          "default": "Ask about {room}",
+          "long": false
+        },
+        {
+          "key": "room.otherRooms",
+          "label": "Heading of the list of other rooms at the bottom of a room page",
+          "default": "Other rooms",
           "long": false
         }
       ]

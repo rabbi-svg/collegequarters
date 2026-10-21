@@ -7,7 +7,7 @@ Check wording.json and the pages against each other. Run before every commit tha
 Fails (exit 1) when:
   - wording.json is not valid JSON or not in the agreed format
   - a key is malformed or used twice
-  - a key used on a page or in a script is missing from wording.json
+  - a key used on a page (or the room-page template), in a script or by the build is missing from wording.json
   - a key in wording.json is no longer used anywhere (remove it)
   - a page's built-in text differs from the default in wording.json (the repo keeps the original text)
   - a data-w element contains anything other than plain text
@@ -18,7 +18,7 @@ import re
 import subprocess
 import sys
 
-from wording_lib import KEY_RE, PAGES, ROOT, WORDING, js_keys, one_line, page_texts
+from wording_lib import CHECKED_PAGES, KEY_RE, ROOT, WORDING, build_keys, js_keys, one_line, page_texts
 
 
 def main():
@@ -67,7 +67,7 @@ def main():
     used = {}
     index_keys = set()
     block_keys = set()
-    for page in PAGES:
+    for page in CHECKED_PAGES:
         text = (ROOT / page).read_text(encoding="utf-8")
         found = page_texts(text)
         n_attr = len(re.findall(r'\sdata-w="', text))
@@ -97,6 +97,10 @@ def main():
         used.setdefault(key, f)
         if key not in index_keys:
             errors.append("%s uses %s but index.html has no built-in text for it (add it to the cq-wording block)" % (f, key))
+    # 4. keys the build writes into the pages itself (room cards, room pages, contact details)
+    for key in build_keys():
+        used.setdefault(key, "tools/build_site.py")
+
     for key in sorted(block_keys - set(scripts)):
         errors.append("index.html cq-wording block has %s, but no script uses it" % key)
 
@@ -105,7 +109,7 @@ def main():
     for key in sorted(set(defaults) - set(used)):
         errors.append("wording.json key %s is not used anywhere: remove it" % key)
 
-    # 4. keys removed compared with the published version
+    # 5. keys removed compared with the published version
     try:
         old = subprocess.run(["git", "show", "origin/main:wording.json"], cwd=ROOT, capture_output=True, text=True)
         if old.returncode == 0:
