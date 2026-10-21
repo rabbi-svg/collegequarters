@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <!-- Template for the room pages (rooms/<room>/index.html). tools/build_site.py makes one page per room:
+       wording from wording.json (data-w keys; {room}, {price}, {availability}, {description} are filled in),
+       room details and contact details from data/site.json at the "cq:" markers and {{...}} spots.
+       Not published as-is. See CLAUDE.md before editing any text. -->
+  <title data-w="room.pageTitle">Furnished Student Room near Ohio University: {room}, {price} | College Quarters</title>
+  <meta name="description" data-w-content="room.pageDescription" content="{room} at College Quarters, a furnished student room near Ohio University in Athens, Ohio, for {price}. {availability}. {description}">
+  <link rel="canonical" href="{{url}}">
+  <meta name="theme-color" content="#0f5a46">
+
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" data-w-content="site.name" content="College Quarters">
+  <meta property="og:title" data-w-content="room.pageTitle" content="Furnished Student Room near Ohio University: {room}, {price} | College Quarters">
+  <meta property="og:description" data-w-content="room.pageDescription" content="{room} at College Quarters, a furnished student room near Ohio University in Athens, Ohio, for {price}. {availability}. {description}">
+  <meta property="og:url" content="{{url}}">
+  <meta property="og:image" content="{{image}}">
+  <meta property="og:locale" content="en_US">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" data-w-content="room.pageTitle" content="Furnished Student Room near Ohio University: {room}, {price} | College Quarters">
+  <meta name="twitter:description" data-w-content="room.pageDescription" content="{room} at College Quarters, a furnished student room near Ohio University in Athens, Ohio, for {price}. {availability}. {description}">
+  <meta name="twitter:image" content="{{image}}">
+
+  <link rel="icon" href="/assets/img/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="/assets/img/favicon-32.png" sizes="32x32" type="image/png">
+  <link rel="apple-touch-icon" href="/assets/img/apple-touch-icon.png">
+  <link rel="stylesheet" href="/assets/css/site.css?v=12">
+
+  <!--cq:ldjson-->
+
+  <!-- Replaced by the home page's cq-wording block when the site is built. -->
+  <script type="application/json" id="cq-wording">{}</script>
+  <script type="application/json" id="cq-data">null</script>
+
+  <script src="/assets/js/config.js?v=12" defer></script>
+  <script src="/assets/js/photos.js?v=12" defer></script>
+  <script src="/assets/js/wording.js?v=12" defer></script>
+  <script src="/assets/js/app.js?v=12" defer></script>
+</head>
+<body>
+  <a class="skip" href="#main" data-w="nav.skip">Skip to content</a>
+
+  <header class="site-header">
+    <div class="wrap header-inner">
+      <a class="brand" href="/">
+        <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="7" fill="currentColor"/><path d="M8 15.5 16 9l8 6.5V24h-5.5v-5h-5v5H8z" fill="#fff"/></svg>
+        <span data-w="site.name">College Quarters</span>
+      </a>
+      <nav class="nav" aria-label="Main">
+        <a href="/#rooms" data-w="nav.rooms">Rooms</a>
+        <a href="#contact" data-w="nav.contact">Contact</a>
+        <a href="/#tenants" data-w="nav.tenants">Tenants</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="section room-page">
+      <div class="wrap">
+        <nav class="crumbs" aria-label="Breadcrumb"><a href="/#rooms" data-w="room.back">← All rooms</a></nav>
+        <p class="eyebrow" data-w="room.eyebrow">Furnished student room · Athens, Ohio · Near Ohio University</p>
+        <div class="room-title">
+          <h1><!--cq:label--></h1>
+          <!--cq:price-->
+        </div>
+        <!--cq:badge-->
+
+        <div class="room-layout">
+          <div class="room-media"><!--cq:gallery--></div>
+          <div class="room-info">
+            <!--cq:description-->
+            <form class="card form" id="room-page-form" data-form="inquiry" novalidate>
+              <h2 class="h3" data-w="room.formTitle">Ask about {room}</h2>
+              <input type="hidden" name="room" value="{{room}}">
+              <div class="field">
+                <label for="p-name"><span data-w="form.nameLabel">Your name</span></label>
+                <input id="p-name" name="name" type="text" autocomplete="name" required maxlength="100">
+              </div>
+              <div class="field">
+                <label for="p-email"><span data-w="form.emailLabel">E-mail</span></label>
+                <input id="p-email" name="email" type="email" autocomplete="email" inputmode="email" required maxlength="200">
+              </div>
+              <div class="field">
+                <label for="p-phone"><span data-w="form.phoneLabel">Phone</span> <span class="opt" data-w="form.optional">(optional)</span></label>
+                <input id="p-phone" name="phone" type="tel" autocomplete="tel" inputmode="tel" maxlength="40">
+              </div>
+              <div class="field">
+                <label for="p-movein"><span data-w="form.moveInLabel">Move-in</span> <span class="opt" data-w="form.optional">(optional)</span></label>
+                <input id="p-movein" name="moveIn" type="text" data-w-placeholder="form.moveInPlaceholder" placeholder="e.g. Fall semester 2027, or May 2027" maxlength="100">
+              </div>
+              <div class="field">
+                <label for="p-message"><span data-w="form.messageLabel">Message</span></label>
+                <textarea id="p-message" name="message" rows="4" required maxlength="3000">{{message}}</textarea>
+              </div>
+              <div class="hp" aria-hidden="true">
+                <label for="p-website">Leave this empty</label>
+                <input id="p-website" name="website" type="text" tabindex="-1" autocomplete="off">
+              </div>
+              <button class="btn btn-primary btn-block" type="submit" data-w="dialog.sendButton">Send question</button>
+              <p class="form-msg" role="status" aria-live="polite"></p>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section-alt" aria-labelledby="how-title">
+      <div class="wrap">
+        <h2 id="how-title" data-w="how.title">How it works</h2>
+        <ol class="steps">
+          <li><strong data-w="how.step1.title">Pick a room.</strong> <span data-w="how.step1.text">Browse photos, prices and when each room is available.</span></li>
+          <li><strong data-w="how.step2.title">Ask about it.</strong> <span data-w="how.step2.text">Tap “Ask about this room” and send us a quick note. Parents are welcome to ask too.</span></li>
+          <li><strong data-w="how.step3.title">We get back to you.</strong> <span data-w="how.step3.text">We answer by e-mail or phone to set up a viewing and talk through the details.</span></li>
+        </ol>
+      </div>
+    </section>
+
+    <section class="section" id="contact" aria-labelledby="contact-title">
+      <div class="wrap">
+        <h2 id="contact-title" data-w="contact.title">Contact us</h2>
+        <ul class="contact-list"><!--cq:contact--></ul>
+      </div>
+    </section>
+
+    <section class="section section-alt" id="other-rooms" aria-labelledby="other-title">
+      <div class="wrap">
+        <h2 id="other-title" data-w="room.otherRooms">Other rooms</h2>
+        <ul class="other-rooms"><!--cq:other-rooms--></ul>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <p><strong data-w="footer.name">College Quarters</strong> · <span data-w="footer.tagline">Student rooms in Athens, Ohio</span></p>
+      <p class="muted small">© <span id="year">2026</span> <span data-w="footer.copyright">College Quarters. Not affiliated with Ohio University.</span></p>
+    </div>
+  </footer>
+
+  <!-- Full-size photo viewer -->
+  <dialog class="lightbox" id="lightbox" aria-label="Photo viewer">
+    <button class="icon-btn lb-close" type="button" data-close aria-label="Close">&times;</button>
+    <button class="icon-btn lb-prev" type="button" aria-label="Previous photo">&lsaquo;</button>
+    <img alt="" id="lightbox-img">
+    <button class="icon-btn lb-next" type="button" aria-label="Next photo">&rsaquo;</button>
+    <p class="lb-count" id="lightbox-count"></p>
+  </dialog>
+</body>
+</html>

@@ -32,12 +32,17 @@ The owner is not technical: do all the work, and give exact click-by-click steps
    texts the office changed). That commit runs `.github/workflows/publish.yml`. **The website never calls the
    Apps Script when a page loads**: no live feed, no swapping text after load. Don't edit `data/site.json` by hand.
 
-3. **The build writes everything into the pages.** `tools/build_site.py` reads `data/site.json` and writes each
-   key's text (office text if present, otherwise the `wording.json` default; keys matched ignoring spaces and
-   capitals, blank texts ignored) into the pages' text, title and description, and the rooms and contact details
-   into index.html's `cq-data` block. Text is always escaped, **never inserted as HTML**. It writes into a `_site`
+3. **The build writes everything into the pages** (so Google reads it without running any script).
+   `tools/build_site.py` reads `data/site.json` and writes each key's text (office text if present, otherwise the
+   `wording.json` default; keys matched ignoring spaces and capitals, blank texts ignored) into the pages' text,
+   title and description. It also writes, straight into the HTML: the room cards (photos, price, availability,
+   description), the contact list and the room choices into index.html (at the `<!--cq:...-->` markers); one page
+   per room at `/rooms/<room>/` from `templates/room.html`; schema.org structured data (the business with its
+   address, and each room's price and availability); `sitemap.xml`; and the phone and e-mail into the `cq-data`
+   block for the scripts' messages. Text is always escaped, **never inserted as HTML**. It writes into a `_site`
    copy only; the repo keeps the original text, so `wording.json` defaults stay the original text. If
    `data/site.json` is missing or invalid the build fails, so the previous site stays live.
+   `assets/js/app.js` only adds behaviour (galleries, photo viewer, forms) to that HTML; it never builds room cards.
 
 4. **Before finishing any change**, run `python3 tools/check_wording.py`. It must pass: `wording.json` is valid,
    every key used on the pages and in the scripts is in it, no unused keys, and built-in text matches the defaults.
@@ -47,13 +52,21 @@ The owner is not technical: do all the work, and give exact click-by-click steps
 - HTML text: an element containing only plain text with `data-w="key"` (no tags inside; wrap in a `<span>` if
   needed). Placeholders: `data-w-placeholder="key"` plus `placeholder="…"`. `<meta>`: `data-w-content="key"`.
 - Text shown by scripts: call `W.t("key")` (or `W.t("key", { name: value })` for `{name}` placeholders) with a
-  **literal** key string, and add the key with its default to the `cq-wording` JSON block in `index.html`.
-- Never hard-code visible text in `app.js` or the HTML without a key. Screen-reader-only text (aria-labels, alt
-  text) and the availability fallback in `app.js` (availability comes from the feed) are the only exceptions.
+  **literal** key string, and add the key with its default to the `cq-wording` JSON block in `index.html`
+  (the room pages get a copy of that block when the site is built).
+- Text the build writes itself (room cards, room pages, contact list): `wt("key")` or `wt("key", name=value)` in
+  `tools/build_site.py`, with a **literal** key string; the default comes from `wording.json`.
+- Room pages: `templates/room.html` is checked like a page (`data-w` keys); `{room}`, `{price}`, `{availability}`
+  and `{description}` in the `room.*` texts are filled in per room. Room details go in at its `cq:` markers and
+  `{{...}}` spots. It is not published as-is.
+- Never hard-code visible text in `app.js`, `build_site.py` or the HTML without a key. Screen-reader-only text
+  (aria-labels, alt text) and the availability fallback in `app.js` / `build_site.py` (availability comes from the
+  feed) are the only exceptions.
 - Add the item to `wording.json` in the right section and position, with a plain-words label; mention any
   `{placeholder}` in the label.
 - `assets/js/wording.js` applies wording in the browser; `tools/wording_lib.py` does the same for the build and
-  checker. Keep them consistent.
+  checker. Keep them consistent. `build_site.py` repeats `app.js`'s formatting rules (room name, price, phone,
+  availability, photo links): keep those consistent too.
 
 ## Other standing rules
 
@@ -78,12 +91,20 @@ The owner is not technical: do all the work, and give exact click-by-click steps
   http(s) URLs are used; Google Drive share links are converted to direct image links. Those photos are not
   processed by this repo, so the back office is responsible for their privacy (blurring, metadata).
 - Photos: `python3 tools/prepare_photos.py <folder>` (one sub-folder per room, named as in the feed). It makes
-  web-sized copies with all metadata removed. Look at every photo first: rooms are often occupied, so blur
+  web-sized copies with all metadata removed. Then update `tools/photo_alt.json` (alt text for each repo photo, in
+  order): describe only the room and its fixtures, never tenants' belongings. Look at every photo first: rooms are often occupied, so blur
   tenants' personal details (photos of people, screens, papers and notes, reflections) before processing, and
   never commit the original uploads (this repo is public; remove uploaded originals from history too).
   Use full-size originals: files under 1600px on the long side (e.g. Apple `…_4_5005_c.jpeg` previews) make
   a soft enlarged view; the tool warns about them, so ask the owner for the originals.
 - When changing CSS or JS, bump the `?v=` number on the asset links in `index.html` (and `404.html`).
+
+## Search (SEO)
+
+- Home page title/description: `meta.title` / `meta.description`; room pages: `room.pageTitle` /
+  `room.pageDescription`. Canonical URLs, the sitemap and structured data use the domain in `CNAME`.
+- `robots.txt` points to the sitemap. Don't block `/tenant` there (it has `noindex`, which Google must be able to see).
+- A Google Search Console verification file (`google….html`) at the repo root is published automatically.
 
 ## Publishing
 

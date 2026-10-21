@@ -5,16 +5,16 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <!-- All visible text comes from wording.json (keys in data-w / data-w-placeholder / data-w-content).
        See CLAUDE.md before editing any text. -->
-  <title data-w="meta.title">College Quarters | Student Rooms for Rent in Athens, Ohio</title>
-  <meta name="description" data-w-content="meta.description" content="Student rooms for rent in Athens, Ohio, for Ohio University students. See photos, prices and live availability, and ask about a room in a minute.">
+  <title data-w="meta.title">Furnished Student Rooms near Ohio University, Athens, Ohio | College Quarters</title>
+  <meta name="description" data-w-content="meta.description" content="Furnished student rooms for rent near Ohio University in Athens, Ohio. See photos, the monthly price and availability of every room, and ask about one in minutes.">
   <link rel="canonical" href="https://collegequarters.net/">
   <meta name="theme-color" content="#0f5a46">
 
   <!-- Link previews (iMessage, WhatsApp, Facebook, Slack, etc.) -->
   <meta property="og:type" content="website">
   <meta property="og:site_name" data-w-content="site.name" content="College Quarters">
-  <meta property="og:title" data-w-content="meta.title" content="College Quarters | Student Rooms for Rent in Athens, Ohio">
-  <meta property="og:description" data-w-content="meta.description" content="Student rooms for rent in Athens, Ohio, for Ohio University students. See photos, prices and live availability, and ask about a room in a minute.">
+  <meta property="og:title" data-w-content="meta.title" content="Furnished Student Rooms near Ohio University, Athens, Ohio | College Quarters">
+  <meta property="og:description" data-w-content="meta.description" content="Furnished student rooms for rent near Ohio University in Athens, Ohio. See photos, the monthly price and availability of every room, and ask about one in minutes.">
   <meta property="og:url" content="https://collegequarters.net/">
   <meta property="og:image" content="https://collegequarters.net/assets/img/og-image.jpg">
   <meta property="og:image:width" content="1200">
@@ -22,39 +22,23 @@
   <meta property="og:image:alt" content="College Quarters: student rooms in Athens, Ohio">
   <meta property="og:locale" content="en_US">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" data-w-content="meta.title" content="College Quarters | Student Rooms for Rent in Athens, Ohio">
-  <meta name="twitter:description" data-w-content="meta.description" content="Student rooms for rent in Athens, Ohio, for Ohio University students. See photos, prices and live availability, and ask about a room in a minute.">
+  <meta name="twitter:title" data-w-content="meta.title" content="Furnished Student Rooms near Ohio University, Athens, Ohio | College Quarters">
+  <meta name="twitter:description" data-w-content="meta.description" content="Furnished student rooms for rent near Ohio University in Athens, Ohio. See photos, the monthly price and availability of every room, and ask about one in minutes.">
   <meta name="twitter:image" content="https://collegequarters.net/assets/img/og-image.jpg">
 
   <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
   <link rel="icon" href="assets/img/favicon-32.png" sizes="32x32" type="image/png">
   <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
-  <link rel="stylesheet" href="assets/css/site.css?v=11">
+  <link rel="stylesheet" href="assets/css/site.css?v=12">
 
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "LodgingBusiness",
-    "name": "College Quarters",
-    "description": "Student rooms for rent in Athens, Ohio, for Ohio University students. See photos, prices and live availability, and ask about a room in a minute.",
-    "url": "https://collegequarters.net/",
-    "image": "https://collegequarters.net/assets/img/og-image.jpg",
-    "areaServed": "Athens, Ohio",
-    "address": { "@type": "PostalAddress", "addressLocality": "Athens", "addressRegion": "OH", "addressCountry": "US" }
-  }
-  </script>
+  <!-- Structured data (schema.org) for the business and each room: written in by tools/build_site.py. -->
+  <!--cq:ldjson-->
 
-  <!-- Text the scripts show (messages, buttons on room cards). Same rules as data-w. -->
+  <!-- Text the scripts show (messages). Same rules as data-w. -->
   <script type="application/json" id="cq-wording">
   {
     "rooms.numberedName": "Room {room}",
-    "rooms.priceSuffix": "/ month",
     "rooms.noPhotos": "Photos coming soon",
-    "rooms.askButton": "Ask about this room",
-    "rooms.none": "All of our rooms are currently taken. Send us a message to hear about the next opening.",
-    "rooms.noneButton": "Ask about upcoming openings",
-    "rooms.loadError": "We couldn't load the current room list right now.",
-    "rooms.tryAgain": "Try again",
     "common.reachUs": "You can also call {phone} or e-mail {email}.",
     "dialog.title": "Ask about {room}",
     "dialog.message": "Hi, I'm interested in {room}. Is it still available, and can I come see it?",
@@ -68,13 +52,13 @@
   }
   </script>
 
-  <!-- Rooms and contact details, written in by tools/build_site.py from data/site.json (saved by the Rentals app). -->
+  <!-- Phone and e-mail for the scripts' messages, written in by tools/build_site.py from data/site.json. -->
   <script type="application/json" id="cq-data">null</script>
 
-  <script src="assets/js/config.js?v=11" defer></script>
-  <script src="assets/js/photos.js?v=11" defer></script>
-  <script src="assets/js/wording.js?v=11" defer></script>
-  <script src="assets/js/app.js?v=11" defer></script>
+  <script src="assets/js/config.js?v=12" defer></script>
+  <script src="assets/js/photos.js?v=12" defer></script>
+  <script src="assets/js/wording.js?v=12" defer></script>
+  <script src="assets/js/app.js?v=12" defer></script>
 </head>
 <body>
   <a class="skip" href="#main" data-w="nav.skip">Skip to content</a>
@@ -112,15 +96,8 @@
           <h2 id="rooms-title" data-w="rooms.title">Rooms</h2>
         </div>
 
-        <div id="rooms-status" class="status" role="status" aria-live="polite">
-          <div class="skeleton-card" aria-hidden="true"></div>
-          <div class="skeleton-card" aria-hidden="true"></div>
-        </div>
-        <div id="rooms-list" class="rooms"></div>
-
-        <noscript>
-          <p class="notice" data-w="rooms.noscript">Please turn on JavaScript to see our rooms and live availability, or contact us using the details below.</p>
-        </noscript>
+        <!-- Room cards: written in by tools/build_site.py from data/site.json. -->
+        <div id="rooms-list" class="rooms"><!--cq:rooms--></div>
       </div>
     </section>
 
@@ -140,11 +117,7 @@
         <div>
           <h2 id="contact-title" data-w="contact.title">Contact us</h2>
           <p data-w="contact.intro">General question, a viewing, or something about renting with us? Send a message and we'll reply soon.</p>
-          <ul class="contact-list" id="contact-list">
-            <li data-contact="phone" hidden><span class="label" data-w="contact.phoneLabel">Phone</span> <a href="#"></a></li>
-            <li data-contact="email" hidden><span class="label" data-w="contact.emailLabel">E-mail</span> <a href="#"></a></li>
-            <li data-contact="address" hidden><span class="label" data-w="contact.addressLabel">Address</span> <a href="#" target="_blank" rel="noopener"></a></li>
-          </ul>
+          <ul class="contact-list" id="contact-list"><!--cq:contact--></ul>
         </div>
 
         <form class="card form" id="contact-form" data-form="inquiry" novalidate>
@@ -164,7 +137,7 @@
           <div class="field">
             <label for="c-room"><span data-w="contact.roomLabel">Room</span> <span class="opt" data-w="form.optional">(optional)</span></label>
             <select id="c-room" name="room">
-              <option value="" data-w="contact.anyRoom">Any room / general question</option>
+              <option value="" data-w="contact.anyRoom">Any room / general question</option><!--cq:room-options-->
             </select>
           </div>
           <div class="field">

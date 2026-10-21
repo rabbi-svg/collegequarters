@@ -7,7 +7,11 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 WORDING = ROOT / "wording.json"
 PAGES = ["index.html", "404.html", "tenant.html"]
+# Built into one page per room by build_site.py (not published as-is). Checked like a page.
+ROOM_TEMPLATE = "templates/room.html"
+CHECKED_PAGES = PAGES + [ROOM_TEMPLATE]
 JS_DIR = ROOT / "assets" / "js"
+BUILD_SCRIPT = ROOT / "tools" / "build_site.py"
 KEY_RE = re.compile(r"^[A-Za-z0-9._-]+$")
 
 # <tag ... data-w="key" ...>plain text</tag>   (plain text only: no tags inside)
@@ -19,8 +23,8 @@ CONTENT_TAG_RE = re.compile(r'<meta\b[^>]*\sdata-w-content="(?P<key>[^"]*)"[^>]*
 PLACEHOLDER_ATTR_RE = re.compile(r'(?<![\w-])placeholder="[^"]*"')
 CONTENT_ATTR_RE = re.compile(r'(?<![\w-])content="[^"]*"')
 BLOCK_RE = re.compile(r'(<script type="application/json" id="cq-wording">)(?P<json>.*?)(</script>)', re.S)
-LDJSON_RE = re.compile(r'(<script type="application/ld\+json">)(?P<json>.*?)(</script>)', re.S)
 JS_KEY_RE = re.compile(r'\bW\.t\(\s*"([^"]+)"')
+BUILD_KEY_RE = re.compile(r'\bwt\(\s*"([^"]+)"')
 ONE_LINE_KEYS_TAGS = {"title"}
 
 
@@ -70,6 +74,16 @@ def js_keys():
     return keys
 
 
+def build_keys():
+    """Keys build_site.py writes into the pages itself (room cards, room pages, contact list): wt("key")."""
+    return sorted(set(BUILD_KEY_RE.findall(BUILD_SCRIPT.read_text(encoding="utf-8"))))
+
+
+def fill(text, values):
+    """Fill {name} placeholders; unknown names are left as they are."""
+    return re.sub(r"\{(\w+)\}", lambda m: str(values[m.group(1)]) if m.group(1) in values else m.group(0), text)
+
+
 def _script_json(obj):
     return json.dumps(obj, ensure_ascii=False, indent=2).replace("<", "\\u003c")
 
@@ -102,14 +116,4 @@ def bake(page_html, texts):
         data = {k: texts.get(k, v) for k, v in data.items()}
         return m.group(1) + "\n" + _script_json(data) + "\n" + m.group(3)
 
-    def ldjson(m):
-        data = json.loads(m.group("json"))
-        if "meta.description" in texts and "description" in data:
-            data["description"] = one_line(texts["meta.description"])
-        if "site.name" in texts and "name" in data:
-            data["name"] = one_line(texts["site.name"])
-        return m.group(1) + "\n" + _script_json(data) + "\n" + m.group(3)
-
-    page_html = BLOCK_RE.sub(block, page_html)
-    page_html = LDJSON_RE.sub(ldjson, page_html)
-    return page_html
+    return BLOCK_RE.sub(block, page_html)

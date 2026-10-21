@@ -1,0 +1,68 @@
+{
+  "_about": "Alt text for the repo photos in photos/<room>/, in the same order as assets/js/photos.js. Used by tools/build_site.py (alt text is shown to screen readers and Google, not on the page). Describe only the room and its fixtures (loft, bed, desk, vanity, closet, bathroom), never tenants' belongings. Update this file whenever tools/prepare_photos.py changes a room's photos. A photo without alt text here gets 'Room N, photo i of n'.",
+  "2": [
+    "furnished student room with a large loft and ladder, carpet and a window",
+    "walk-in closet and the door into the room",
+    "view across the room toward the door",
+    "toilet in the shared Jack and Jill bathroom",
+    "shower in the shared Jack and Jill bathroom",
+    "shower stall with curtain in the shared bathroom",
+    "shower stall in the shared bathroom"
+  ],
+  "4": [
+    "furnished student room with a loft ladder, bed and wood floor",
+    "loft ladder and the open space under the loft",
+    "bed under the window",
+    "sink vanity with mirror next to the closet",
+    "toilet in the shared Jack and Jill bathroom",
+    "shower in the shared Jack and Jill bathroom",
+    "shower stall with curtain in the shared bathroom",
+    "shower stall in the shared bathroom"
+  ],
+  "5": [
+    "furnished student room with a bed under the loft, sink vanity with mirror and two windows",
+    "desk and chair, loft ladder and the door into the room",
+    "sink vanity and desk under the loft",
+    "private bathroom with shower",
+    "toilet in the private bathroom"
+  ],
+  "6": [
+    "furnished student room with a bed under the loft and ladder, window and air conditioner",
+    "desk and stool under the loft",
+    "sink vanity with mirror, closet and the private bathroom door",
+    "toilet and shower in the private bathroom",
+    "private bathroom with toilet, shower and tile floor"
+  ],
+  "7": [
+    "furnished student room with a bed and night table",
+    "desk area by the window",
+    "sink vanity with mirror next to the door",
+    "toilet in the shared Jack and Jill bathroom",
+    "toilet in the shared bathroom",
+    "shower stall in the shared bathroom"
+  ],
+  "8": [
+    "furnished student room with a bed, loft ladder and window",
+    "view toward the door into the room",
+    "desk area and sink vanity with mirror",
+    "view toward the closet",
+    "toilet in the shared Jack and Jill bathroom",
+    "toilet in the shared bathroom",
+    "shower stall in the shared bathroom"
+  ],
+  "9": [
+    "furnished student room with a loft ladder, sink vanity, wood floor and window",
+    "bed under the loft with its ladder",
+    "bed and night table",
+    "sink vanity with mirror next to the door",
+    "toilet in the shared Jack and Jill bathroom",
+    "toilet in the shared bathroom",
+    "shower stall in the shared bathroom"
+  ],
+  "10": [
+    "furnished student room with a bed and night table under the loft, two windows and a sink vanity",
+    "desk and chair by the door",
+    "desk and chair next to the closet",
+    "sink vanity with mirror"
+  ]
+}
